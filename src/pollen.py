@@ -1,11 +1,21 @@
 """
-Fetches pollen measurements from the Astma-Allergi Denmark internal JSON API.
+Fetches pollen measurements and 3-day forecast from the
+Astma-Allergi Denmark internal JSON API.
 
 API endpoint (undocumented but stable):
     https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed
 
-Returns a Google Firestore-format document with measurements from both
-Danish monitoring stations.
+Returns a Google Firestore-format document. Each pollen species entry
+contains three relevant fields:
+
+    level       integerValue    Current measurement (-1 = no data)
+    inSeason    booleanValue    Whether this species is currently active
+    overrides   arrayValue      5-day forecast as integer strings ["1","2",...]
+    predictions mapValue        ML model forecasts keyed by "DD-MM-YYYY" date
+
+The overrides array is the authoritative forecast used by the official app.
+When overrides is empty or absent, predictions are used as a fallback.
+Index 0 in overrides = today, index 1 = tomorrow, etc.
 
 Region IDs
 ----------
@@ -20,36 +30,32 @@ Pollen type IDs
   7   Birk (birch)
   28  Graes (grass)
   31  Bynke (mugwort)
-  44  Alternaria (fungal spore)
-  45  Cladosporium (fungal spore)
 
 Measurements cover the period 13:00 yesterday to 13:00 today.
 Published daily at approximately 16:00.
-Running this at 06:00 always returns the most recently published cycle.
 
 License: data belongs to Astma-Allergi Danmark. Personal use only.
-See https://hoefeber.astma-allergi.dk/pollenfeed for commercial licensing.
 """
 
 import json
+import os
 import requests
+from datetime import datetime, timedelta
 from typing import Optional
 
 
 API_URL = "https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed"
 
-REGION_EAST = "48"   # Copenhagen -- representative for Funen / Odense
-REGION_WEST = "49"   # Viborg
+REGION_EAST = "48"
+REGION_WEST = "49"
 
 POLLEN_IDS = {
-    "el":           "1",
-    "hassel":       "2",
-    "elm":          "4",
-    "birch":        "7",
-    "grass":        "28",
-    "mugwort":      "31",
-    "alternaria":   "44",
-    "cladosporium": "45",
+    "el":     "1",
+    "hassel": "2",
+    "elm":    "4",
+    "birch":  "7",
+    "grass":  "28",
+    "mugwort":"31",
 }
 
 # Level thresholds (grains/m3) -- Astma-Allergi Danmark classification.
@@ -80,19 +86,36 @@ MUGWORT_THRESHOLDS = {
 
 ALDER_THRESHOLDS = MUGWORT_THRESHOLDS
 
+# Integer level -> threshold dict mapping (for forecast values)
+# Overrides array values are raw integers, not grain counts.
+# The API uses a 0-5 scale internally: 0=ingen, 1=lav, 2=moderat, 3=høj, 4=meget høj
+LEVEL_INT_TO_LABEL = {
+    -1: "ukendt",
+    0:  "ingen",
+    1:  "lav",
+    2:  "moderat",
+    3:  "høj",
+    4:  "meget høj",
+    5:  "meget høj",
+}
+
 
 def fetch_pollen(region: str = REGION_EAST) -> dict:
     """
-    Fetches and parses the latest pollen measurements for the given region.
+    Fetches and parses the latest pollen measurements and 3-day forecast
+    for the given region.
 
-    Returns a normalised dict with raw counts and named levels for each
-    pollen type. On any failure, returns the out-of-season fallback (all
-    zeros) so the calling code always receives a usable dict.
+    Returns a normalised dict with:
+      - Current measurements (raw counts + named levels)
+      - 3-day forecast (named levels for today+1, today+2, today+3)
+      - is_season, api_ok flags
+
+    On any failure, returns the out-of-season fallback (all zeros).
     """
     try:
         response = requests.get(
             API_URL,
-            headers={"User-Agent": "weather-advisory/1.0 (personal use)"},
+            headers={"User-Agent": "daglig-vejr/1.0 (personal use)"},
             timeout=15,
         )
         response.raise_for_status()
@@ -100,7 +123,6 @@ def fetch_pollen(region: str = REGION_EAST) -> dict:
         print(f"[pollen] API request failed: {e}")
         return _out_of_season_fallback(region)
 
-    # The API may return either a plain JSON object or a JSON-encoded string.
     try:
         raw = response.json()
         if isinstance(raw, str):
@@ -109,77 +131,179 @@ def fetch_pollen(region: str = REGION_EAST) -> dict:
         print(f"[pollen] JSON parsing failed: {e}")
         return _out_of_season_fallback(region)
 
-    # DEBUG: Print the full raw API response to the Actions log once so we
-    # can discover forecast field names. Remove this block once the forecast
-    # field structure is confirmed and implemented.
-    import os
+    # Debug dump: print full raw response to Actions log when requested.
+    # Set POLLEN_DEBUG=true in the workflow env to activate.
+    # Turn off after inspecting by setting POLLEN_DEBUG=false.
     if os.environ.get("POLLEN_DEBUG", "").lower() == "true":
-        import json as _json
         print("[pollen] DEBUG: Full raw API response:")
-        print(_json.dumps(raw, indent=2, ensure_ascii=False)[:8000])
+        print(json.dumps(raw, indent=2, ensure_ascii=False)[:8000])
 
     return _extract_measurements(raw, region)
 
 
 def _extract_measurements(doc: dict, region: str) -> dict:
     """
-    Navigates the Firestore document structure to extract pollen counts.
+    Navigates the Firestore document to extract current measurements
+    and the 5-day forecast for each pollen species.
 
-    Firestore REST documents use the pattern:
+    Firestore structure per species:
         doc["fields"][region]["mapValue"]["fields"]["data"]["mapValue"]
-            ["fields"][pollen_id]["mapValue"]["fields"]["level"]["integerValue"]
-
-    Defensive: any missing key returns None for that pollen type rather
-    than raising an exception.
+            ["fields"][pollen_id]["mapValue"]["fields"] ->
+                level:       integerValue  (current, -1 = no measurement)
+                inSeason:    booleanValue
+                overrides:   arrayValue -> values -> [stringValue, ...]  (5-day forecast)
+                predictions: mapValue -> fields -> {"DD-MM-YYYY": {isML, prediction}}
     """
-    def _get_level(pollen_id: str) -> Optional[int]:
-        """Extract a single pollen count from the nested Firestore structure."""
+    def _get_species_fields(pollen_id: str) -> Optional[dict]:
+        """Returns the fields dict for a single pollen species, or None."""
         try:
-            region_data = (
+            return (
                 doc["fields"][region]["mapValue"]["fields"]["data"]
-                   ["mapValue"]["fields"]
+                   ["mapValue"]["fields"][pollen_id]["mapValue"]["fields"]
             )
-            pollen_data = region_data[pollen_id]["mapValue"]["fields"]
-            # Firestore stores integers as "integerValue" (string) or
-            # occasionally as "doubleValue" (float). Handle both.
-            if "integerValue" in pollen_data["level"]:
-                return int(pollen_data["level"]["integerValue"])
-            elif "doubleValue" in pollen_data["level"]:
-                return int(float(pollen_data["level"]["doubleValue"]))
+        except (KeyError, TypeError):
             return None
+
+    def _get_current_level(fields: dict) -> Optional[int]:
+        """Extracts the current measurement as an integer."""
+        try:
+            v = fields["level"]
+            if "integerValue" in v:
+                return int(v["integerValue"])
+            if "doubleValue" in v:
+                return int(float(v["doubleValue"]))
         except (KeyError, TypeError, ValueError):
-            return None
+            pass
+        return None
 
-    grass   = _get_level(POLLEN_IDS["grass"])
-    birch   = _get_level(POLLEN_IDS["birch"])
-    mugwort = _get_level(POLLEN_IDS["mugwort"])
-    el      = _get_level(POLLEN_IDS["el"])
-    hassel  = _get_level(POLLEN_IDS["hassel"])
-    elm     = _get_level(POLLEN_IDS["elm"])
+    def _get_forecast(fields: dict) -> list[str]:
+        """
+        Extracts the 3-day forecast from overrides array or predictions map.
 
-    # data_present is True if at least one primary species returned a value
-    # (even -1), meaning the API responded with actual station data.
-    data_present = any(v is not None for v in [grass, birch, mugwort])
+        Priority:
+          1. overrides array -- used when the forecaster has set manual values.
+             Indices 0-4 correspond to today through today+4.
+             We return indices 1-3 (tomorrow, day after, day+3).
+          2. predictions map -- ML model predictions keyed by date string.
+             We find the 3 nearest future dates and return their levels.
 
-    # The API returns -1 for species with no measurement on a given day
-    # (out of season or station gap). Clamp to 0 so downstream logic
-    # never operates on negative grain counts.
+        Returns a list of 3 level label strings, e.g. ["lav", "moderat", "lav"].
+        Returns ["ukendt", "ukendt", "ukendt"] if no forecast data is found.
+        """
+        # --- Try overrides array first ---
+        try:
+            override_values = fields["overrides"]["arrayValue"].get("values", [])
+            if override_values:
+                # Array is 5 entries for today+0 through today+4.
+                # We want tomorrow (index 1) through today+3 (index 3).
+                forecast = []
+                for i in range(1, 4):
+                    if i < len(override_values):
+                        raw_val = override_values[i].get("stringValue", "")
+                        try:
+                            level_int = int(raw_val)
+                            forecast.append(LEVEL_INT_TO_LABEL.get(level_int, "ukendt"))
+                        except (ValueError, TypeError):
+                            forecast.append("ukendt")
+                    else:
+                        forecast.append("ukendt")
+                if any(f != "ukendt" for f in forecast):
+                    return forecast
+        except (KeyError, TypeError):
+            pass
+
+        # --- Fall back to predictions map ---
+        try:
+            pred_fields = fields["predictions"]["mapValue"]["fields"]
+            today = datetime.now()
+
+            # Parse date keys ("DD-MM-YYYY") and find the 3 next days
+            dated = {}
+            for date_str, entry in pred_fields.items():
+                try:
+                    d = datetime.strptime(date_str, "%d-%m-%Y")
+                    pred_str = entry["mapValue"]["fields"]["prediction"]["stringValue"]
+                    if pred_str:
+                        dated[d] = pred_str
+                except (KeyError, ValueError):
+                    pass
+
+            future_dates = sorted(d for d in dated if d.date() > today.date())
+            forecast = []
+            for d in future_dates[:3]:
+                pred_val = dated[d]
+                # Prediction may be a category string or an integer string
+                try:
+                    level_int = int(pred_val)
+                    forecast.append(LEVEL_INT_TO_LABEL.get(level_int, "ukendt"))
+                except ValueError:
+                    # Already a label string like "lav"
+                    forecast.append(pred_val if pred_val else "ukendt")
+
+            # Pad to 3 entries
+            while len(forecast) < 3:
+                forecast.append("ukendt")
+            return forecast[:3]
+
+        except (KeyError, TypeError):
+            pass
+
+        return ["ukendt", "ukendt", "ukendt"]
+
     def _clean(v: Optional[int]) -> int:
+        """Clamps None and negative values to 0."""
         if v is None or v < 0:
             return 0
         return v
 
-    grass   = _clean(grass)
-    birch   = _clean(birch)
-    mugwort = _clean(mugwort)
-    el      = _clean(el)
-    hassel  = _clean(hassel)
-    elm     = _clean(elm)
+    # Extract all species
+    species_data = {}
+    for name, pid in POLLEN_IDS.items():
+        fields = _get_species_fields(pid)
+        if fields is None:
+            species_data[name] = {"level": None, "in_season": False, "forecast": ["ukendt"]*3}
+            continue
+        raw_level  = _get_current_level(fields)
+        in_season  = fields.get("inSeason", {}).get("booleanValue", False)
+        forecast   = _get_forecast(fields)
+        species_data[name] = {
+            "level":     raw_level,
+            "in_season": in_season,
+            "forecast":  forecast,
+        }
+
+    # Pull out the individual values we need
+    grass_raw   = species_data["grass"]["level"]
+    birch_raw   = species_data["birch"]["level"]
+    mugwort_raw = species_data["mugwort"]["level"]
+    el_raw      = species_data["el"]["level"]
+    hassel_raw  = species_data["hassel"]["level"]
+    elm_raw     = species_data["elm"]["level"]
+
+    data_present = any(
+        v is not None
+        for v in [grass_raw, birch_raw, mugwort_raw]
+    )
+
+    grass   = _clean(grass_raw)
+    birch   = _clean(birch_raw)
+    mugwort = _clean(mugwort_raw)
+    el      = _clean(el_raw)
+    hassel  = _clean(hassel_raw)
+    elm     = _clean(elm_raw)
 
     is_season = data_present and (grass + birch + mugwort + el + hassel > 0)
 
+    # Build forecast date labels (tomorrow, day+2, day+3)
+    today = datetime.now()
+    forecast_dates = [
+        (today + timedelta(days=i)).strftime("%-d. %b")
+        for i in range(1, 4)
+    ]
+
     return {
         "region":        region,
+        # Current measurements
         "grass":         grass,
         "grass_level":   _classify(grass,   GRASS_THRESHOLDS),
         "birch":         birch,
@@ -193,6 +317,13 @@ def _extract_measurements(doc: dict, region: str) -> dict:
         "elm":           elm,
         "is_season":     is_season,
         "api_ok":        data_present,
+        # 3-day forecast (list of 3 level label strings)
+        "grass_forecast":   species_data["grass"]["forecast"],
+        "birch_forecast":   species_data["birch"]["forecast"],
+        "mugwort_forecast": species_data["mugwort"]["forecast"],
+        "el_forecast":      species_data["el"]["forecast"],
+        # Forecast date labels for email headers
+        "forecast_dates":   forecast_dates,
     }
 
 
@@ -207,29 +338,35 @@ def _classify(value: int, thresholds: dict) -> str:
 def _out_of_season_fallback(region: str = REGION_EAST) -> dict:
     """
     Safe zero-value result for when the API is unreachable or out of season.
-    All recommendation logic treats these values gracefully.
+    Includes empty forecast lists so downstream code always has those keys.
     """
+    today = datetime.now()
+    forecast_dates = [
+        (today + timedelta(days=i)).strftime("%-d. %b")
+        for i in range(1, 4)
+    ]
     return {
-        "region":        region,
-        "grass":         0,
-        "grass_level":   "ingen",
-        "birch":         0,
-        "birch_level":   "ingen",
-        "mugwort":       0,
-        "mugwort_level": "ingen",
-        "el":            0,
-        "el_level":      "ingen",
-        "hassel":        0,
-        "hassel_level":  "ingen",
-        "elm":           0,
-        "is_season":     False,
-        "api_ok":        False,
+        "region":           region,
+        "grass":            0,
+        "grass_level":      "ingen",
+        "birch":            0,
+        "birch_level":      "ingen",
+        "mugwort":          0,
+        "mugwort_level":    "ingen",
+        "el":               0,
+        "el_level":         "ingen",
+        "hassel":           0,
+        "hassel_level":     "ingen",
+        "elm":              0,
+        "is_season":        False,
+        "api_ok":           False,
+        "grass_forecast":   ["ingen", "ingen", "ingen"],
+        "birch_forecast":   ["ingen", "ingen", "ingen"],
+        "mugwort_forecast": ["ingen", "ingen", "ingen"],
+        "el_forecast":      ["ingen", "ingen", "ingen"],
+        "forecast_dates":   forecast_dates,
     }
 
-
-# ---------------------------------------------------------------------------
-# Convenience predicates used by rules.py
-# ---------------------------------------------------------------------------
 
 def grass_is_problematic(pollen: dict) -> bool:
     """Returns True if grass pollen is at a level likely to cause symptoms."""
