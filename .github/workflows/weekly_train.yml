@@ -41,6 +41,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run model training
+        env:
+          # IGE_DATA er nødvendig fordi allergy_profile importeres
+          # via rules.py ved validering under træning.
+          IGE_DATA: ${{ secrets.IGE_DATA }}
         run: python train_job.py
 
       - name: Commit model artifacts
