@@ -1,7 +1,7 @@
 [
   {
     "date": "2026-04-21",
-    "timestamp": "2026-04-21T18:17:06.223090",
+    "timestamp": "2026-04-21T18:27:23.455680",
     "weather": {
       "temperature": 10.8,
       "feels_like": 7.2,
@@ -21,7 +21,7 @@
       "wind_speed_max": 15.1,
       "sunrise": "2026-04-21T05:59",
       "sunset": "2026-04-21T20:34",
-      "fetched_at": "2026-04-21T18:17:06.611258"
+      "fetched_at": "2026-04-21T18:27:23.857515"
     },
     "pollen": {
       "region": "48",
@@ -34,6 +34,7 @@
       "el": 0,
       "el_level": "ingen",
       "hassel": 0,
+      "hassel_level": "ingen",
       "elm": 1,
       "is_season": true,
       "api_ok": true
