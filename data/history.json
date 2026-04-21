@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "date": "2026-04-21",
+    "timestamp": "2026-04-21T14:51:02.748635",
+    "weather": {
+      "temperature": 12.3,
+      "feels_like": 7.9,
+      "precipitation_current": 0.0,
+      "wind_speed": 13.0,
+      "wind_gusts": 29.2,
+      "cloud_cover": 3,
+      "humidity": 35,
+      "uv_index_current": 3.4,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 5.2,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_max": 12.5,
+      "temp_min": 2.3,
+      "wind_speed_max": 15.1,
+      "sunrise": "2026-04-21T05:59",
+      "sunset": "2026-04-21T20:34",
+      "fetched_at": "2026-04-21T14:51:03.150535"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": -1,
+      "grass_level": "ukendt",
+      "birch": 39,
+      "birch_level": "lav",
+      "mugwort": -1,
+      "mugwort_level": "ukendt",
+      "el": -1,
+      "el_level": "ukendt",
+      "hassel": -1,
+      "elm": 1,
+      "is_season": true,
+      "api_ok": true
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "Let jakke eller tynd cardigan",
+      "clothing_layers": "Lang aermede + let lag",
+      "summary": "Let jakke eller tynd cardigan + SPF 30",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
+  }
+]
