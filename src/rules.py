@@ -4,6 +4,8 @@ Regelbaseret anbefalingsmotor.
 Producerer konkrete anbefalinger om tøj, solcreme, antihistamin og paraply
 baseret på vejr- og pollenobservationer.
 
+Pollengrænser er kalibreret til Mikkels personlige IgE-værdier fra
+blodprøve (sundhed.dk, 27. juni 2023). Se src/allergy_profile.py.
 """
 
 from dataclasses import dataclass
@@ -123,7 +125,7 @@ def _paraply_anbefaling(weather: dict, adj: dict) -> tuple[bool, str]:
     precip_sum  = weather.get("precipitation_sum", 0.0)
     precip_now  = weather.get("precipitation_current", 0.0)
 
-    prob_threshold = adj.get("umbrella_prob_threshold", 40)
+    prob_threshold = adj.get("umbrella_prob_threshold", 50)
 
     umbrella = False
     reasons = []
@@ -197,7 +199,13 @@ def _build_summary(
     weather: dict,
     pollen: dict,
 ) -> str:
-    """Kompakt én-linje opsummering til emnelinjen."""
+    """
+    Kompakt opsummering til emnelinjen og den grønne banner i mailen.
+
+    Bruger komma som separator i stedet for "+" for at læse som en
+    naturlig liste frem for en formel udtryk.
+    Eksempel: "Let jakke, SPF 30, Antihistamin"
+    """
     parts = [outer]
     if spf != "Ingen solcreme nødvendig":
         parts.append(spf)
@@ -205,4 +213,4 @@ def _build_summary(
         parts.append("Antihistamin")
     if umbrella:
         parts.append("Paraply")
-    return " + ".join(parts)
+    return ", ".join(parts)
