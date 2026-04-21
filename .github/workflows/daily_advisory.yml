@@ -53,6 +53,7 @@ jobs:
           GMAIL_ADDRESS:      ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
+          IGE_DATA:           ${{ secrets.IGE_DATA }}
           # github.repository is provided automatically -- no secret needed
           GITHUB_REPO:        ${{ github.repository }}
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
