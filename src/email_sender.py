@@ -1,13 +1,14 @@
 """
-Sender det daglige vejradvisory-mail via Gmail SMTP.
+Sends the daily advisory email via Gmail SMTP.
 
-Brug et App Password (ikke dit normale Gmail-kodeord).
-Sådan genereres det: Google-konto -> Sikkerhed -> 2-trinsbekræftelse
--> App-adgangskoder -> opret ny -> kopiér det 16-cifrede kodeord.
+Uses an App Password rather than the account password.
+To generate one: Google Account -> Security -> 2-Step Verification
+-> App Passwords -> create new -> copy the 16-character code.
 
-Gem kodeordet som GitHub Secret: GMAIL_APP_PASSWORD.
-Gem din Gmail-adresse som: GMAIL_ADDRESS.
-Gem modtageradresse som: RECIPIENT_EMAIL.
+Store credentials as GitHub Secrets:
+  GMAIL_ADDRESS       Sending address
+  GMAIL_APP_PASSWORD  The 16-character App Password
+  RECIPIENT_EMAIL     Delivery address (defaults to GMAIL_ADDRESS if unset)
 """
 
 import os
@@ -24,6 +25,8 @@ from src.rules import Recommendation
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
 
+# Hardcoded Danish month and day names -- avoids dependency on system locale.
+# GitHub Actions Ubuntu runners do not have a Danish locale installed.
 DK_MONTHS = {
     1: "januar", 2: "februar", 3: "marts", 4: "april",
     5: "maj", 6: "juni", 7: "juli", 8: "august",
@@ -36,10 +39,12 @@ DK_DAYS = {
 
 
 def _dk_date(date: datetime) -> str:
+    """Returns a Danish long date string, e.g. '21. april 2026'."""
     return f"{date.day}. {DK_MONTHS[date.month]} {date.year}"
 
 
 def _dk_short_date(date: datetime) -> str:
+    """Returns a Danish short date string, e.g. '21. april'."""
     return f"{date.day}. {DK_MONTHS[date.month]}"
 
 
@@ -54,15 +59,19 @@ def send_advisory(
     recipient_email: Optional[str] = None,
 ) -> bool:
     """
-    Sender advisory-mailen.
-    Returnerer True ved succes, False ved fejl.
+    Sends the advisory email.
+
+    Reads credentials from environment variables if not passed directly.
+    Returns True on success, False on failure -- errors are printed rather
+    than raised so the GitHub Action does not silently discard the
+    history.json commit step that follows.
     """
     sender    = sender_email    or os.environ.get("GMAIL_ADDRESS", "")
     password  = app_password    or os.environ.get("GMAIL_APP_PASSWORD", "")
     recipient = recipient_email or os.environ.get("RECIPIENT_EMAIL", sender)
 
     if not sender or not password:
-        print("[email] Manglende legitimationsoplysninger. Sæt GMAIL_ADDRESS og GMAIL_APP_PASSWORD.")
+        print("[email] Missing credentials. Set GMAIL_ADDRESS and GMAIL_APP_PASSWORD.")
         return False
 
     subject = _build_subject(rec, date)
@@ -71,7 +80,7 @@ def send_advisory(
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
-    msg["From"]    = f"Vejr & Pollen Advisory <{sender}>"
+    msg["From"]    = f"Daglig Vejr <{sender}>"
     msg["To"]      = recipient
 
     msg.attach(MIMEText(text, "plain", "utf-8"))
@@ -83,18 +92,19 @@ def send_advisory(
             server.starttls()
             server.login(sender, password)
             server.sendmail(sender, recipient, msg.as_bytes())
-        print(f"[email] Advisory sendt til {recipient}")
+        print(f"[email] Advisory sent to {recipient}")
         return True
     except smtplib.SMTPException as e:
-        print(f"[email] SMTP-fejl: {e}")
+        print(f"[email] SMTP error: {e}")
         return False
 
 
 # ---------------------------------------------------------------------------
-# Indholdsbyggere
+# Content builders
 # ---------------------------------------------------------------------------
 
 def _build_subject(rec: Recommendation, date: datetime) -> str:
+    """Builds the email subject line."""
     day = DK_DAYS[date.weekday()]
     return f"Daglig Vejr - {day} {_dk_short_date(date)}: {rec.summary}"
 
@@ -106,13 +116,16 @@ def _build_html(
     date: datetime,
     github_repo: str,
 ) -> str:
+    """Generates the mobile-friendly HTML email body."""
 
     accurate_url   = _feedback_url(github_repo, date, accurate=True)
     inaccurate_url = _feedback_url(github_repo, date, accurate=False)
 
+    # Colour-coded level badges for grass and birch
     grass_color = _pollen_color(pollen.get("grass_level", "ingen"))
     birch_color = _pollen_color(pollen.get("birch_level", "ingen"))
 
+    # Pill row changes background colour when active
     pill_row = (
         '<tr style="background:#fff3cd">'
         '<td style="padding:8px;font-weight:bold">Antihistamin</td>'
@@ -125,6 +138,7 @@ def _build_html(
         '</tr>'
     )
 
+    # Umbrella row changes background colour when active
     umbrella_row = (
         '<tr style="background:#cfe2ff">'
         '<td style="padding:8px;font-weight:bold">Paraply</td>'
@@ -137,6 +151,7 @@ def _build_html(
         '</tr>'
     )
 
+    # Small note shown when the ML model adjusted any threshold
     ml_note = (
         '<p style="font-size:11px;color:#999;margin-top:4px">'
         'Anbefalingen er justeret af den trænede model baseret på din tidligere feedback.'
@@ -145,15 +160,16 @@ def _build_html(
     )
 
     date_str = _dk_date(date)
-    sunrise  = weather.get("sunrise", "").split("T")[-1][:5] if weather.get("sunrise") else "N/A"
-    sunset   = weather.get("sunset",  "").split("T")[-1][:5] if weather.get("sunset")  else "N/A"
+    # Extract HH:MM from ISO datetime strings like "2026-04-21T05:59"
+    sunrise = weather.get("sunrise", "").split("T")[-1][:5] if weather.get("sunrise") else "N/A"
+    sunset  = weather.get("sunset",  "").split("T")[-1][:5] if weather.get("sunset")  else "N/A"
 
-    html = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vejradvisory {date_str}</title>
+  <title>Daglig Vejr {date_str}</title>
 </head>
 <body style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#f8f9fa;padding:16px">
 
@@ -190,35 +206,35 @@ def _build_html(
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
         <td style="padding:6px 8px;color:#666">Temperatur</td>
-        <td style="padding:6px 8px;font-weight:bold">{weather.get('temperature', 'N/A')}°C (føles som {weather.get('feels_like', 'N/A')}°C)</td>
+        <td style="padding:6px 8px;font-weight:bold">{weather.get('temperature','N/A')}°C (føles som {weather.get('feels_like','N/A')}°C)</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Min / Maks</td>
-        <td style="padding:6px 8px">{weather.get('temp_min', 'N/A')}°C / {weather.get('temp_max', 'N/A')}°C</td>
+        <td style="padding:6px 8px">{weather.get('temp_min','N/A')}°C / {weather.get('temp_max','N/A')}°C</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">UV-indeks (maks)</td>
-        <td style="padding:6px 8px">{weather.get('uv_index_max', 'N/A')}</td>
+        <td style="padding:6px 8px">{weather.get('uv_index_max','N/A')}</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Regn (sandsynlighed / sum)</td>
-        <td style="padding:6px 8px">{weather.get('precipitation_probability', 'N/A')}% / {weather.get('precipitation_sum', 'N/A')} mm</td>
+        <td style="padding:6px 8px">{weather.get('precipitation_probability','N/A')}% / {weather.get('precipitation_sum','N/A')} mm</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Vind</td>
-        <td style="padding:6px 8px">{weather.get('wind_speed', 'N/A')} km/t (vindstød: {weather.get('wind_gusts', 'N/A')} km/t)</td>
+        <td style="padding:6px 8px">{weather.get('wind_speed','N/A')} km/t (vindstød: {weather.get('wind_gusts','N/A')} km/t)</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Skydække</td>
-        <td style="padding:6px 8px">{weather.get('cloud_cover', 'N/A')}%</td>
+        <td style="padding:6px 8px">{weather.get('cloud_cover','N/A')}%</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Luftfugtighed</td>
-        <td style="padding:6px 8px">{weather.get('humidity', 'N/A')}%</td>
+        <td style="padding:6px 8px">{weather.get('humidity','N/A')}%</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Vejrtype</td>
-        <td style="padding:6px 8px">{weather.get('weather_description', 'N/A')}</td>
+        <td style="padding:6px 8px">{weather.get('weather_description','N/A')}</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Sol op / ned</td>
@@ -232,7 +248,7 @@ def _build_html(
         <td style="padding:6px 8px;color:#666">Græspollen</td>
         <td style="padding:6px 8px;font-weight:bold">
           <span style="background:{grass_color};padding:2px 8px;border-radius:12px;font-size:12px">
-            {pollen.get('grass', 0)} korn/m³ &mdash; {pollen.get('grass_level', 'ukendt').upper()}
+            {pollen.get('grass',0)} korn/m³ &mdash; {pollen.get('grass_level','ukendt').upper()}
           </span>
         </td>
       </tr>
@@ -240,21 +256,21 @@ def _build_html(
         <td style="padding:6px 8px;color:#666">Birkepollen</td>
         <td style="padding:6px 8px">
           <span style="background:{birch_color};padding:2px 8px;border-radius:12px;font-size:12px">
-            {pollen.get('birch', 0)} korn/m³ &mdash; {pollen.get('birch_level', 'ukendt').upper()}
+            {pollen.get('birch',0)} korn/m³ &mdash; {pollen.get('birch_level','ukendt').upper()}
           </span>
         </td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Bynkepollen</td>
-        <td style="padding:6px 8px">{pollen.get('mugwort', 0)} korn/m³ &mdash; {pollen.get('mugwort_level', 'ukendt')}</td>
+        <td style="padding:6px 8px">{pollen.get('mugwort',0)} korn/m³ &mdash; {pollen.get('mugwort_level','ukendt')}</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Elpollen</td>
-        <td style="padding:6px 8px">{pollen.get('el', 0)} korn/m³</td>
+        <td style="padding:6px 8px">{pollen.get('el',0)} korn/m³</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Hasselpollen</td>
-        <td style="padding:6px 8px">{pollen.get('hassel', 0)} korn/m³</td>
+        <td style="padding:6px 8px">{pollen.get('hassel',0)} korn/m³</td>
       </tr>
     </table>
 
@@ -285,7 +301,6 @@ def _build_html(
 
 </body>
 </html>"""
-    return html
 
 
 def _build_plaintext(
@@ -294,6 +309,7 @@ def _build_plaintext(
     pollen: dict,
     date: datetime,
 ) -> str:
+    """Plain text fallback for email clients that do not render HTML."""
     pill_text     = "JA -- " + rec.pill_reason     if rec.pill     else "Nej -- " + rec.pill_reason
     umbrella_text = "JA -- " + rec.umbrella_reason if rec.umbrella else "Nej -- " + rec.umbrella_reason
 
@@ -326,6 +342,13 @@ Bynke:          {pollen.get('mugwort')} korn/m³ ({pollen.get('mugwort_level')})
 
 
 def _feedback_url(github_repo: str, date: datetime, accurate: bool) -> str:
+    """
+    Generates a pre-filled GitHub Issues URL.
+
+    Clicking the link opens the issue creation page with title and body
+    already populated. The user just clicks "Submit new issue".
+    The parse_feedback.yml workflow then reads and processes these issues.
+    """
     label    = "Accurate" if accurate else "Inaccurate"
     date_str = date.strftime("%Y-%m-%d")
     title    = f"Feedback:{label}-{date_str}"
@@ -339,12 +362,13 @@ def _feedback_url(github_repo: str, date: datetime, accurate: bool) -> str:
 
 
 def _pollen_color(level: str) -> str:
+    """Returns a background colour hex string for the pollen level badge."""
     colors = {
-        "ingen":    "#e8f5e9",
-        "lav":      "#f1f8e9",
-        "moderat":  "#fff8e1",
-        "høj":      "#fff3e0",
-        "meget høj":"#fce4ec",
-        "ukendt":   "#f5f5f5",
+        "ingen":     "#e8f5e9",
+        "lav":       "#f1f8e9",
+        "moderat":   "#fff8e1",
+        "høj":       "#fff3e0",
+        "meget høj": "#fce4ec",
+        "ukendt":    "#f5f5f5",
     }
     return colors.get(level, "#f5f5f5")
