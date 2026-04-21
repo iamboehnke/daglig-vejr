@@ -96,7 +96,7 @@ def send_advisory(
 
 def _build_subject(rec: Recommendation, date: datetime) -> str:
     day = DK_DAYS[date.weekday()]
-    return f"Vejradvisory - {day} {_dk_short_date(date)}: {rec.summary}"
+    return f"Daglig Vejr - {day} {_dk_short_date(date)}: {rec.summary}"
 
 
 def _build_html(
@@ -158,7 +158,7 @@ def _build_html(
 <body style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#f8f9fa;padding:16px">
 
   <div style="background:#2c3e50;color:white;padding:20px;border-radius:8px 8px 0 0">
-    <h1 style="margin:0;font-size:20px">Vejr &amp; Pollen Advisory</h1>
+    <h1 style="margin:0;font-size:20px">Daglig Vejr</h1>
     <p style="margin:4px 0 0;font-size:14px;opacity:0.85">{date_str} &mdash; Odense</p>
   </div>
 
@@ -280,7 +280,7 @@ def _build_html(
   </div>
 
   <p style="text-align:center;font-size:11px;color:#aaa;margin-top:12px">
-    Genereret automatisk af weather-advisory &bull; Kilde: Open-Meteo + Astma-Allergi Danmark
+    Genereret automatisk af Daglig Vejr &bull; Kilde: Open-Meteo + Astma-Allergi Danmark
   </p>
 
 </body>
@@ -297,7 +297,7 @@ def _build_plaintext(
     pill_text     = "JA -- " + rec.pill_reason     if rec.pill     else "Nej -- " + rec.pill_reason
     umbrella_text = "JA -- " + rec.umbrella_reason if rec.umbrella else "Nej -- " + rec.umbrella_reason
 
-    return f"""VEJRADVISORY - {_dk_date(date).upper()} - ODENSE
+    return f"""DAGLIG VEJR - {_dk_date(date).upper()} - ODENSE
 {'=' * 50}
 
 ANBEFALING: {rec.summary}
