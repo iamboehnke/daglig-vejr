@@ -1,35 +1,34 @@
 """
-Fetches pollen measurements from Astma-Allergi Denmark's internal JSON API.
+Henter pollenmålinger fra Astma-Allergi Danmarks interne JSON API.
 
-API endpoint (undocumented but stable):
+API-endpoint (udokumenteret men stabilt):
     https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed
 
-This endpoint serves a Google Firestore-format document containing the latest
-pollen measurements for both Danish stations. It is the same source used by
-the official "Dagens Pollental" app and several Home Assistant integrations.
+Returnerer et Google Firestore-formateret dokument med målinger
+fra begge danske pollenstationer.
 
-Region IDs
-----------
-  48  East Denmark (Copenhagen) -- used for Funen / Odense
-  49  West Denmark (Viborg)     -- used for Jutland
+Region-ID'er
+-------------
+  48  Østdanmark (København) -- bruges til Fyn / Odense
+  49  Vestdanmark (Viborg)   -- bruges til Jylland
 
-Pollen type IDs
----------------
-  1   El (alder)
-  2   Hassel (hazel)
+Pollentype-ID'er
+-----------------
+  1   El
+  2   Hassel
   4   Elm
-  7   Birk (birch)
-  28  Graes (grass)
-  31  Bynke (mugwort)
-  44  Alternaria (fungal spore)
-  45  Cladosporium (fungal spore)
+  7   Birk
+  28  Græs
+  31  Bynke
+  44  Alternaria (svampespore)
+  45  Cladosporium (svampespore)
 
-Measurements cover the period 13:00 yesterday to 13:00 today.
-Published daily at approximately 16:00.
-Running this at 06:00 always returns the most recently published cycle.
+Målinger dækker perioden 13:00 i går til 13:00 i dag.
+Opdateres dagligt ca. kl. 16:00.
+Et job der kører kl. 06:00 henter altid det senest publicerede tal.
 
-License note: data belongs to Astma-Allergi Danmark. Personal use only.
-See https://hoefeber.astma-allergi.dk/pollenfeed for commercial licensing.
+Licens: data tilhører Astma-Allergi Danmark. Kun til personlig brug.
+Se https://hoefeber.astma-allergi.dk/pollenfeed for kommerciel licens.
 """
 
 import json
@@ -39,7 +38,7 @@ from typing import Optional
 
 API_URL = "https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed"
 
-REGION_EAST = "48"   # Copenhagen -- representative for Funen / Odense
+REGION_EAST = "48"   # København -- repræsentativ for Fyn / Odense
 REGION_WEST = "49"   # Viborg
 
 POLLEN_IDS = {
@@ -53,28 +52,29 @@ POLLEN_IDS = {
     "cladosporium": "45",
 }
 
+# Niveaugrænser (korn/m³) -- Astma-Allergi Danmarks klassifikation
 GRASS_THRESHOLDS = {
     "ingen":     (0, 4),
     "lav":       (5, 29),
     "moderat":   (30, 49),
-    "hoj":       (50, 99),
-    "meget_hoj": (100, float("inf")),
+    "høj":       (50, 99),
+    "meget høj": (100, float("inf")),
 }
 
 BIRCH_THRESHOLDS = {
     "ingen":     (0, 14),
     "lav":       (15, 49),
     "moderat":   (50, 99),
-    "hoj":       (100, 999),
-    "meget_hoj": (1000, float("inf")),
+    "høj":       (100, 999),
+    "meget høj": (1000, float("inf")),
 }
 
 MUGWORT_THRESHOLDS = {
     "ingen":     (0, 4),
     "lav":       (5, 9),
     "moderat":   (10, 29),
-    "hoj":       (30, 99),
-    "meget_hoj": (100, float("inf")),
+    "høj":       (30, 99),
+    "meget høj": (100, float("inf")),
 }
 
 ALDER_THRESHOLDS = MUGWORT_THRESHOLDS
@@ -82,32 +82,29 @@ ALDER_THRESHOLDS = MUGWORT_THRESHOLDS
 
 def fetch_pollen(region: str = REGION_EAST) -> dict:
     """
-    Fetches and parses the latest pollen measurements for the given region.
+    Henter og parser de seneste pollenmålinger for den givne region.
 
-    Returns a normalised dict with raw counts and named levels for each
-    pollen type. On any failure, returns the out-of-season fallback (all
-    zeros) so the calling code always receives a usable dict.
+    Returnerer en normaliseret dict med råtal og navngivne niveauer
+    for hver pollentype. Ved fejl returneres nul-fallback, så
+    den kaldende kode altid får en brugbar dict.
     """
     try:
         response = requests.get(
             API_URL,
-            headers={"User-Agent": "weather-advisory/1.0 (personal use)"},
+            headers={"User-Agent": "weather-advisory/1.0 (personlig brug)"},
             timeout=15,
         )
         response.raise_for_status()
     except requests.RequestException as e:
-        print(f"[pollen] API request failed: {e}")
+        print(f"[pollen] API-forespørgsel fejlede: {e}")
         return _out_of_season_fallback(region)
 
-    # The API may return the Firestore document as:
-    #   (a) a plain JSON object  -- response.json() works directly
-    #   (b) a JSON-encoded string -- needs a second parse step
     try:
         raw = response.json()
         if isinstance(raw, str):
             raw = json.loads(raw)
     except (ValueError, json.JSONDecodeError) as e:
-        print(f"[pollen] JSON parse failed: {e}")
+        print(f"[pollen] JSON-parsing fejlede: {e}")
         return _out_of_season_fallback(region)
 
     return _extract_measurements(raw, region)
@@ -115,11 +112,11 @@ def fetch_pollen(region: str = REGION_EAST) -> dict:
 
 def _extract_measurements(doc: dict, region: str) -> dict:
     """
-    Navigates the Firestore document structure to extract pollen counts.
+    Navigerer Firestore-dokumentstrukturen og udtrækker pollenantal.
 
-    Firestore REST documents use the pattern:
-        doc["fields"][region]["mapValue"]["fields"]["data"]["mapValue"]["fields"][pollen_id]
-            ["mapValue"]["fields"]["level"]["integerValue"]
+    Firestore REST-dokumenter bruger mønstret:
+        doc["fields"][region]["mapValue"]["fields"]["data"]["mapValue"]
+            ["fields"][pollen_id]["mapValue"]["fields"]["level"]["integerValue"]
     """
     def _get_level(pollen_id: str) -> Optional[int]:
         try:
@@ -197,11 +194,11 @@ def _out_of_season_fallback(region: str = REGION_EAST) -> dict:
 
 
 def grass_is_problematic(pollen: dict) -> bool:
-    return pollen.get("grass_level", "ingen") in ("moderat", "hoj", "meget_hoj")
+    return pollen.get("grass_level", "ingen") in ("moderat", "høj", "meget høj")
 
 
 def any_pollen_elevated(pollen: dict) -> bool:
     for key in ("grass_level", "birch_level", "mugwort_level", "el_level"):
-        if pollen.get(key, "ingen") in ("moderat", "hoj", "meget_hoj"):
+        if pollen.get(key, "ingen") in ("moderat", "høj", "meget høj"):
             return True
     return False
