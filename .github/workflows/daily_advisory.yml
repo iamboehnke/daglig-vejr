@@ -53,8 +53,12 @@ jobs:
           GMAIL_ADDRESS:      ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
+          # Personlige IgE-værdier -- gemt som secret så de aldrig
+          # fremgår af koden eller commit-historikken.
+          # Format: {"grass": 189.0, "birch": 55.7, "mugwort": 3.04,
+          #          "dust_mite": 1.80, "dog": 1.63, "cat": 0.21}
           IGE_DATA:           ${{ secrets.IGE_DATA }}
-          # github.repository is provided automatically -- no secret needed
+          # github.repository er tilgængeligt automatisk -- ingen secret nødvendig
           GITHUB_REPO:        ${{ github.repository }}
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
         run: python weather_job.py
