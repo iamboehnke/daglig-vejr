@@ -142,12 +142,20 @@ def _extract_measurements(doc: dict, region: str) -> dict:
 
     data_present = any(v is not None for v in [grass, birch, mugwort])
 
-    grass   = grass   or 0
-    birch   = birch   or 0
-    mugwort = mugwort or 0
-    el      = el      or 0
-    hassel  = hassel  or 0
-    elm     = elm     or 0
+    # The API returns -1 for species with no measurement that day
+    # (out of season or station gap). Clamp to 0 so downstream logic
+    # never operates on negative grain counts.
+    def _clean(v):
+        if v is None or v < 0:
+            return 0
+        return v
+
+    grass   = _clean(grass)
+    birch   = _clean(birch)
+    mugwort = _clean(mugwort)
+    el      = _clean(el)
+    hassel  = _clean(hassel)
+    elm     = _clean(elm)
 
     is_season = data_present and (grass + birch + mugwort + el + hassel > 0)
 
