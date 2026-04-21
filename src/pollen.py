@@ -109,6 +109,15 @@ def fetch_pollen(region: str = REGION_EAST) -> dict:
         print(f"[pollen] JSON parsing failed: {e}")
         return _out_of_season_fallback(region)
 
+    # DEBUG: Print the full raw API response to the Actions log once so we
+    # can discover forecast field names. Remove this block once the forecast
+    # field structure is confirmed and implemented.
+    import os
+    if os.environ.get("POLLEN_DEBUG", "").lower() == "true":
+        import json as _json
+        print("[pollen] DEBUG: Full raw API response:")
+        print(_json.dumps(raw, indent=2, ensure_ascii=False)[:8000])
+
     return _extract_measurements(raw, region)
 
 
