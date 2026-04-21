@@ -1,16 +1,16 @@
 [
   {
     "date": "2026-04-21",
-    "timestamp": "2026-04-21T19:05:50.232491",
+    "timestamp": "2026-04-21T19:21:03.829597",
     "weather": {
-      "temperature": 9.7,
-      "feels_like": 6.4,
+      "temperature": 9.3,
+      "feels_like": 6.2,
       "precipitation_current": 0.0,
       "wind_speed": 5.4,
-      "wind_gusts": 10.4,
+      "wind_gusts": 9.4,
       "cloud_cover": 4,
-      "humidity": 41,
-      "uv_index_current": 0.1,
+      "humidity": 46,
+      "uv_index_current": 0.0,
       "weather_code": 0,
       "weather_description": "Klar himmel",
       "uv_index_max": 5.2,
@@ -21,7 +21,7 @@
       "wind_speed_max": 15.1,
       "sunrise": "2026-04-21T05:59",
       "sunset": "2026-04-21T20:34",
-      "fetched_at": "2026-04-21T19:05:50.809024"
+      "fetched_at": "2026-04-21T19:21:04.297091"
     },
     "pollen": {
       "region": "48",
@@ -37,7 +37,32 @@
       "hassel_level": "ingen",
       "elm": 1,
       "is_season": true,
-      "api_ok": true
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "høj",
+        "høj",
+        "høj"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "22. Apr",
+        "23. Apr",
+        "24. Apr"
+      ]
     },
     "recommendation": {
       "spf": "SPF 30",
