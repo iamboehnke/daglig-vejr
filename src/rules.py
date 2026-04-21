@@ -4,8 +4,6 @@ Regelbaseret anbefalingsmotor.
 Producerer konkrete anbefalinger om tøj, solcreme, antihistamin og paraply
 baseret på vejr- og pollenobservationer.
 
-Pollengrænser er kalibreret til Mikkels personlige IgE-værdier fra
-blodprøve (sundhed.dk, 27. juni 2023). Se src/allergy_profile.py.
 """
 
 from dataclasses import dataclass
