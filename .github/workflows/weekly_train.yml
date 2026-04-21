@@ -1,0 +1,53 @@
+# .github/workflows/weekly_train.yml
+#
+# Runs train_job.py every Saturday at 06:00 CET (05:00 UTC).
+# Retrains the Random Forest model on all labeled history entries.
+# If there are fewer than 20 labeled samples, training is skipped
+# and the workflow exits cleanly (no failure).
+#
+# The trained model (data/model.pkl) and metrics (data/model_metrics.json)
+# are committed back to the repository so weather_job.py can load them.
+
+name: Weekly Model Training
+
+on:
+  schedule:
+    # Every Saturday at 05:00 UTC
+    - cron: "0 5 * * 6"
+
+  workflow_dispatch:
+
+jobs:
+  train-model:
+    name: Retrain recommendation model
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run model training
+        run: python train_job.py
+
+      - name: Commit model artifacts
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "model: weekly retrain ${{ github.run_id }}"
+          # Commit model file and metrics; model.pkl is binary but small (~1 MB)
+          file_pattern: "data/model.pkl data/model_metrics.json"
+          commit_user_name: "weather-advisory-bot"
+          commit_user_email: "bot@users.noreply.github.com"
