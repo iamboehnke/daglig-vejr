@@ -1,16 +1,16 @@
 [
   {
     "date": "2026-04-21",
-    "timestamp": "2026-04-21T18:27:23.455680",
+    "timestamp": "2026-04-21T19:05:50.232491",
     "weather": {
-      "temperature": 10.8,
-      "feels_like": 7.2,
+      "temperature": 9.7,
+      "feels_like": 6.4,
       "precipitation_current": 0.0,
-      "wind_speed": 6.5,
-      "wind_gusts": 16.2,
-      "cloud_cover": 0,
-      "humidity": 35,
-      "uv_index_current": 0.3,
+      "wind_speed": 5.4,
+      "wind_gusts": 10.4,
+      "cloud_cover": 4,
+      "humidity": 41,
+      "uv_index_current": 0.1,
       "weather_code": 0,
       "weather_description": "Klar himmel",
       "uv_index_max": 5.2,
@@ -21,7 +21,7 @@
       "wind_speed_max": 15.1,
       "sunrise": "2026-04-21T05:59",
       "sunset": "2026-04-21T20:34",
-      "fetched_at": "2026-04-21T18:27:23.857515"
+      "fetched_at": "2026-04-21T19:05:50.809024"
     },
     "pollen": {
       "region": "48",
@@ -43,9 +43,9 @@
       "spf": "SPF 30",
       "pill": true,
       "umbrella": false,
-      "clothing_outer": "Let jakke eller tynd cardigan",
-      "clothing_layers": "Lange ærmer + let lag",
-      "summary": "Let jakke eller tynd cardigan, SPF 30, Antihistamin",
+      "clothing_outer": "Efterårsjakke",
+      "clothing_layers": "Trøje + jakke",
+      "summary": "Efterårsjakke, SPF 30, Antihistamin",
       "ml_override": false,
       "ml_adjustments": {}
     },
