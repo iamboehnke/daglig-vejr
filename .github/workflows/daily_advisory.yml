@@ -1,0 +1,70 @@
+# .github/workflows/daily_advisory.yml
+#
+# Runs weather_job.py every morning at 06:00 CET (05:00 UTC).
+# Fetches weather + pollen, builds recommendation, sends email,
+# and commits the updated history.json back to the repository.
+#
+# Required GitHub Secrets (Settings -> Secrets and variables -> Actions):
+#   GMAIL_ADDRESS       Your Gmail address
+#   GMAIL_APP_PASSWORD  Gmail App Password (not your Google account password)
+#   RECIPIENT_EMAIL     Email address to deliver the advisory to
+#   GITHUB_REPO         Your repository slug, e.g. "mikkelbohnke/weather-advisory"
+
+name: Daily Weather Advisory
+
+on:
+  schedule:
+    # 05:00 UTC = 06:00 CET (winter) / 07:00 CEST (summer)
+    # GitHub Actions uses UTC. Denmark is UTC+1 (CET) or UTC+2 (CEST).
+    # We use 04:00 UTC to always deliver before 07:00 local time regardless of DST.
+    - cron: "0 4 * * *"
+
+  # Allow triggering manually from the Actions tab (useful for testing)
+  workflow_dispatch:
+
+jobs:
+  send-advisory:
+    name: Fetch data and send advisory
+    runs-on: ubuntu-latest
+
+    # These permissions allow the workflow to push the updated history.json
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch with token so we can push back
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run advisory job
+        env:
+          GMAIL_ADDRESS:      ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
+          # github.repository is provided automatically -- no secret needed
+          GITHUB_REPO:        ${{ github.repository }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+        run: python weather_job.py
+
+      - name: Commit updated history.json
+        # Run even if the advisory step failed, so data is never lost.
+        # A failed email send should not discard the day's weather record.
+        if: always()
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "data: daily history update ${{ github.run_id }}"
+          file_pattern: "data/history.json"
+          commit_user_name: "weather-advisory-bot"
+          commit_user_email: "bot@users.noreply.github.com"
