@@ -121,9 +121,12 @@ def _build_html(
     accurate_url   = _feedback_url(github_repo, date, accurate=True)
     inaccurate_url = _feedback_url(github_repo, date, accurate=False)
 
-    # Colour-coded level badges for grass and birch
-    grass_color = _pollen_color(pollen.get("grass_level", "ingen"))
-    birch_color = _pollen_color(pollen.get("birch_level", "ingen"))
+    # Colour-coded level badges -- computed for all five displayed species
+    grass_color   = _pollen_color(pollen.get("grass_level",   "ingen"))
+    birch_color   = _pollen_color(pollen.get("birch_level",   "ingen"))
+    mugwort_color = _pollen_color(pollen.get("mugwort_level", "ingen"))
+    el_color      = _pollen_color(pollen.get("el_level",      "ingen"))
+    hassel_color  = _pollen_color(pollen.get("hassel_level",  "ingen"))
 
     # Pill row changes background colour when active
     pill_row = (
@@ -246,8 +249,8 @@ def _build_html(
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
         <td style="padding:6px 8px;color:#666">Græspollen</td>
-        <td style="padding:6px 8px;font-weight:bold">
-          <span style="background:{grass_color};padding:2px 8px;border-radius:12px;font-size:12px">
+        <td style="padding:6px 8px">
+          <span style="background:{grass_color};padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold">
             {pollen.get('grass',0)} korn/m³ &mdash; {pollen.get('grass_level','ukendt').upper()}
           </span>
         </td>
@@ -255,22 +258,34 @@ def _build_html(
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Birkepollen</td>
         <td style="padding:6px 8px">
-          <span style="background:{birch_color};padding:2px 8px;border-radius:12px;font-size:12px">
+          <span style="background:{birch_color};padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold">
             {pollen.get('birch',0)} korn/m³ &mdash; {pollen.get('birch_level','ukendt').upper()}
           </span>
         </td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Bynkepollen</td>
-        <td style="padding:6px 8px">{pollen.get('mugwort',0)} korn/m³ &mdash; {pollen.get('mugwort_level','ukendt')}</td>
+        <td style="padding:6px 8px">
+          <span style="background:{mugwort_color};padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold">
+            {pollen.get('mugwort',0)} korn/m³ &mdash; {pollen.get('mugwort_level','ukendt').upper()}
+          </span>
+        </td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Elpollen</td>
-        <td style="padding:6px 8px">{pollen.get('el',0)} korn/m³</td>
+        <td style="padding:6px 8px">
+          <span style="background:{el_color};padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold">
+            {pollen.get('el',0)} korn/m³ &mdash; {pollen.get('el_level','ukendt').upper()}
+          </span>
+        </td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">Hasselpollen</td>
-        <td style="padding:6px 8px">{pollen.get('hassel',0)} korn/m³</td>
+        <td style="padding:6px 8px">
+          <span style="background:{hassel_color};padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold">
+            {pollen.get('hassel',0)} korn/m³ &mdash; {pollen.get('hassel_level','ukendt').upper()}
+          </span>
+        </td>
       </tr>
     </table>
 
