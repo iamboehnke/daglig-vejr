@@ -128,6 +128,8 @@ def _build_html(
     el_color      = _pollen_color(pollen.get("el_level",      "ingen"))
     hassel_color  = _pollen_color(pollen.get("hassel_level",  "ingen"))
 
+    forecast_section = _build_forecast_section(pollen)
+
     # Pill row changes background colour when active
     pill_row = (
         '<tr style="background:#fff3cd">'
@@ -289,6 +291,8 @@ def _build_html(
       </tr>
     </table>
 
+    {forecast_section}
+
     <div style="border-top:1px solid #eee;padding-top:16px;text-align:center">
       <p style="margin:0 0 12px;font-size:13px;color:#666">
         Var dagens anbefaling præcis?
@@ -316,6 +320,78 @@ def _build_html(
 
 </body>
 </html>"""
+
+
+def _build_forecast_section(pollen: dict) -> str:
+    """
+    Builds the 3-day pollen outlook HTML section.
+
+    Only shown when at least one species has a non-'ukendt' forecast.
+    Uses the same colour badge system as the current measurement table.
+    """
+    dates   = pollen.get("forecast_dates", ["dag 1", "dag 2", "dag 3"])
+    g_fc    = pollen.get("grass_forecast",   ["ukendt"] * 3)
+    b_fc    = pollen.get("birch_forecast",   ["ukendt"] * 3)
+    m_fc    = pollen.get("mugwort_forecast", ["ukendt"] * 3)
+
+    # Only render if we have at least some real forecast data
+    all_unknown = all(
+        level == "ukendt"
+        for fc in [g_fc, b_fc, m_fc]
+        for level in fc
+    )
+    if all_unknown:
+        return ""
+
+    def _badge(level: str) -> str:
+        color = _pollen_color(level)
+        return (
+            f'<span style="background:{color};padding:2px 6px;border-radius:10px;'
+            f'font-size:11px;font-weight:bold">{level.upper()}</span>'
+        )
+
+    def _row(label: str, forecast: list[str], bg: str = "white") -> str:
+        cells = "".join(
+            f'<td style="padding:6px 8px;text-align:center">{_badge(f)}</td>'
+            for f in forecast
+        )
+        return (
+            f'<tr style="background:{bg}">'
+            f'<td style="padding:6px 8px;color:#666">{label}</td>'
+            f'{cells}'
+            f'</tr>'
+        )
+
+    date_headers = "".join(
+        f'<th style="padding:6px 8px;text-align:center;font-weight:600;'
+        f'color:#57606a;font-size:12px">{d}</th>'
+        for d in dates
+    )
+
+    rows = "\n".join([
+        _row("Græspollen",  g_fc, "white"),
+        _row("Birkepollen", b_fc, "#f8f9fa"),
+        _row("Bynkepollen", m_fc, "white"),
+    ])
+
+    return f"""
+    <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">
+      3-dages pollenprognose
+    </h3>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
+      <thead>
+        <tr style="background:#f6f8fa">
+          <th style="padding:6px 8px;text-align:left;color:#57606a;font-size:12px">Art</th>
+          {date_headers}
+        </tr>
+      </thead>
+      <tbody>
+        {rows}
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#aaa;margin-top:-12px;margin-bottom:20px">
+      Prognose fra Astma-Allergi Danmark. Præ-mediciner ved forventet stigning.
+    </p>"""
 
 
 def _build_plaintext(
