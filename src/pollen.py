@@ -1,34 +1,34 @@
 """
-Henter pollenmålinger fra Astma-Allergi Danmarks interne JSON API.
+Fetches pollen measurements from the Astma-Allergi Denmark internal JSON API.
 
-API-endpoint (udokumenteret men stabilt):
+API endpoint (undocumented but stable):
     https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed
 
-Returnerer et Google Firestore-formateret dokument med målinger
-fra begge danske pollenstationer.
+Returns a Google Firestore-format document with measurements from both
+Danish monitoring stations.
 
-Region-ID'er
--------------
-  48  Østdanmark (København) -- bruges til Fyn / Odense
-  49  Vestdanmark (Viborg)   -- bruges til Jylland
+Region IDs
+----------
+  48  East Denmark (Copenhagen) -- representative for Funen / Odense
+  49  West Denmark (Viborg)
 
-Pollentype-ID'er
------------------
-  1   El
-  2   Hassel
+Pollen type IDs
+---------------
+  1   El (alder)
+  2   Hassel (hazel)
   4   Elm
-  7   Birk
-  28  Græs
-  31  Bynke
-  44  Alternaria (svampespore)
-  45  Cladosporium (svampespore)
+  7   Birk (birch)
+  28  Graes (grass)
+  31  Bynke (mugwort)
+  44  Alternaria (fungal spore)
+  45  Cladosporium (fungal spore)
 
-Målinger dækker perioden 13:00 i går til 13:00 i dag.
-Opdateres dagligt ca. kl. 16:00.
-Et job der kører kl. 06:00 henter altid det senest publicerede tal.
+Measurements cover the period 13:00 yesterday to 13:00 today.
+Published daily at approximately 16:00.
+Running this at 06:00 always returns the most recently published cycle.
 
-Licens: data tilhører Astma-Allergi Danmark. Kun til personlig brug.
-Se https://hoefeber.astma-allergi.dk/pollenfeed for kommerciel licens.
+License: data belongs to Astma-Allergi Danmark. Personal use only.
+See https://hoefeber.astma-allergi.dk/pollenfeed for commercial licensing.
 """
 
 import json
@@ -38,7 +38,7 @@ from typing import Optional
 
 API_URL = "https://www.astma-allergi.dk/umbraco/Api/PollenApi/GetPollenFeed"
 
-REGION_EAST = "48"   # København -- repræsentativ for Fyn / Odense
+REGION_EAST = "48"   # Copenhagen -- representative for Funen / Odense
 REGION_WEST = "49"   # Viborg
 
 POLLEN_IDS = {
@@ -52,7 +52,8 @@ POLLEN_IDS = {
     "cladosporium": "45",
 }
 
-# Niveaugrænser (korn/m³) -- Astma-Allergi Danmarks klassifikation
+# Level thresholds (grains/m3) -- Astma-Allergi Danmark classification.
+# Label strings are Danish because they appear in the email output.
 GRASS_THRESHOLDS = {
     "ingen":     (0, 4),
     "lav":       (5, 29),
@@ -82,29 +83,30 @@ ALDER_THRESHOLDS = MUGWORT_THRESHOLDS
 
 def fetch_pollen(region: str = REGION_EAST) -> dict:
     """
-    Henter og parser de seneste pollenmålinger for den givne region.
+    Fetches and parses the latest pollen measurements for the given region.
 
-    Returnerer en normaliseret dict med råtal og navngivne niveauer
-    for hver pollentype. Ved fejl returneres nul-fallback, så
-    den kaldende kode altid får en brugbar dict.
+    Returns a normalised dict with raw counts and named levels for each
+    pollen type. On any failure, returns the out-of-season fallback (all
+    zeros) so the calling code always receives a usable dict.
     """
     try:
         response = requests.get(
             API_URL,
-            headers={"User-Agent": "weather-advisory/1.0 (personlig brug)"},
+            headers={"User-Agent": "weather-advisory/1.0 (personal use)"},
             timeout=15,
         )
         response.raise_for_status()
     except requests.RequestException as e:
-        print(f"[pollen] API-forespørgsel fejlede: {e}")
+        print(f"[pollen] API request failed: {e}")
         return _out_of_season_fallback(region)
 
+    # The API may return either a plain JSON object or a JSON-encoded string.
     try:
         raw = response.json()
         if isinstance(raw, str):
             raw = json.loads(raw)
     except (ValueError, json.JSONDecodeError) as e:
-        print(f"[pollen] JSON-parsing fejlede: {e}")
+        print(f"[pollen] JSON parsing failed: {e}")
         return _out_of_season_fallback(region)
 
     return _extract_measurements(raw, region)
@@ -112,19 +114,25 @@ def fetch_pollen(region: str = REGION_EAST) -> dict:
 
 def _extract_measurements(doc: dict, region: str) -> dict:
     """
-    Navigerer Firestore-dokumentstrukturen og udtrækker pollenantal.
+    Navigates the Firestore document structure to extract pollen counts.
 
-    Firestore REST-dokumenter bruger mønstret:
+    Firestore REST documents use the pattern:
         doc["fields"][region]["mapValue"]["fields"]["data"]["mapValue"]
             ["fields"][pollen_id]["mapValue"]["fields"]["level"]["integerValue"]
+
+    Defensive: any missing key returns None for that pollen type rather
+    than raising an exception.
     """
     def _get_level(pollen_id: str) -> Optional[int]:
+        """Extract a single pollen count from the nested Firestore structure."""
         try:
             region_data = (
                 doc["fields"][region]["mapValue"]["fields"]["data"]
                    ["mapValue"]["fields"]
             )
             pollen_data = region_data[pollen_id]["mapValue"]["fields"]
+            # Firestore stores integers as "integerValue" (string) or
+            # occasionally as "doubleValue" (float). Handle both.
             if "integerValue" in pollen_data["level"]:
                 return int(pollen_data["level"]["integerValue"])
             elif "doubleValue" in pollen_data["level"]:
@@ -140,12 +148,14 @@ def _extract_measurements(doc: dict, region: str) -> dict:
     hassel  = _get_level(POLLEN_IDS["hassel"])
     elm     = _get_level(POLLEN_IDS["elm"])
 
+    # data_present is True if at least one primary species returned a value
+    # (even -1), meaning the API responded with actual station data.
     data_present = any(v is not None for v in [grass, birch, mugwort])
 
-    # The API returns -1 for species with no measurement that day
+    # The API returns -1 for species with no measurement on a given day
     # (out of season or station gap). Clamp to 0 so downstream logic
     # never operates on negative grain counts.
-    def _clean(v):
+    def _clean(v: Optional[int]) -> int:
         if v is None or v < 0:
             return 0
         return v
@@ -177,6 +187,7 @@ def _extract_measurements(doc: dict, region: str) -> dict:
 
 
 def _classify(value: int, thresholds: dict) -> str:
+    """Maps a raw grain count to a named level category."""
     for label, (low, high) in thresholds.items():
         if low <= value <= high:
             return label
@@ -184,6 +195,10 @@ def _classify(value: int, thresholds: dict) -> str:
 
 
 def _out_of_season_fallback(region: str = REGION_EAST) -> dict:
+    """
+    Safe zero-value result for when the API is unreachable or out of season.
+    All recommendation logic treats these values gracefully.
+    """
     return {
         "region":        region,
         "grass":         0,
@@ -201,11 +216,17 @@ def _out_of_season_fallback(region: str = REGION_EAST) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# Convenience predicates used by rules.py
+# ---------------------------------------------------------------------------
+
 def grass_is_problematic(pollen: dict) -> bool:
+    """Returns True if grass pollen is at a level likely to cause symptoms."""
     return pollen.get("grass_level", "ingen") in ("moderat", "høj", "meget høj")
 
 
 def any_pollen_elevated(pollen: dict) -> bool:
+    """Returns True if any measured pollen type is above low levels."""
     for key in ("grass_level", "birch_level", "mugwort_level", "el_level"):
         if pollen.get(key, "ingen") in ("moderat", "høj", "meget høj"):
             return True
