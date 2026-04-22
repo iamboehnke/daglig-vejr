@@ -177,19 +177,29 @@ def _build_html(
   <title>Daglig Vejr {date_str}</title>
 </head>
 <body style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#f8f9fa;padding:16px">
-
+ 
   <div style="background:#2c3e50;color:white;padding:20px;border-radius:8px 8px 0 0">
     <h1 style="margin:0;font-size:20px">Daglig Vejr</h1>
     <p style="margin:4px 0 0;font-size:14px;opacity:0.85">{date_str} &mdash; Odense</p>
   </div>
-
+ 
   <div style="background:white;padding:20px;border-radius:0 0 8px 8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">
-
-    <div style="background:#4caf50;border-left:8px solid #2e7d32;padding:32px 24px;margin-bottom:28px;border-radius:0 4px 4px 0;text-align:center">
-      <div style="color:white;font-size:32px;font-weight:900;line-height:1.3;letter-spacing:-0.5px">{rec.summary}</div>
+ 
+    <div style="margin-bottom:28px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+        <div style="background:#4caf50;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
+          {rec.clothing_outer}
+        </div>
+        <div style="background:#ff9800;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
+          {rec.spf}
+        </div>
+        <div style="background:#2196f3;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
+          {'Antihistamin' if rec.pill else 'Ingen antihistamin'}
+        </div>
+      </div>
       {ml_note}
     </div>
-
+ 
     <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
       <tr style="background:#f1f3f5">
         <td style="padding:8px;font-weight:bold;width:35%">Tøj i dag</td>
@@ -206,7 +216,7 @@ def _build_html(
       {pill_row}
       {umbrella_row}
     </table>
-
+ 
     <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">Vejrdetaljer</h3>
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
@@ -246,7 +256,7 @@ def _build_html(
         <td style="padding:6px 8px">{sunrise} / {sunset}</td>
       </tr>
     </table>
-
+ 
     <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">Pollendata (Østdanmark)</h3>
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
@@ -290,9 +300,9 @@ def _build_html(
         </td>
       </tr>
     </table>
-
+ 
     {forecast_section}
-
+ 
     <div style="border-top:1px solid #eee;padding-top:16px;text-align:center">
       <p style="margin:0 0 12px;font-size:13px;color:#666">
         Var dagens anbefaling præcis?
@@ -311,16 +321,15 @@ def _build_html(
         Dit klik åbner en GitHub Issue. Tryk blot "Submit" for at indsende feedback.
       </p>
     </div>
-
+ 
   </div>
-
+ 
   <p style="text-align:center;font-size:11px;color:#aaa;margin-top:12px">
     Genereret automatisk af Daglig Vejr &bull; Kilde: Open-Meteo + Astma-Allergi Danmark
   </p>
-
+ 
 </body>
 </html>"""
-
 
 def _build_forecast_section(pollen: dict) -> str:
     """
