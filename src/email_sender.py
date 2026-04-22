@@ -130,7 +130,7 @@ def _build_html(
 
     forecast_section = _build_forecast_section(pollen)
 
-    # Pill row changes background colour when active
+    # Detail rows in the recommendation table
     pill_row = (
         '<tr style="background:#fff3cd">'
         '<td style="padding:8px;font-weight:bold">Antihistamin</td>'
@@ -143,7 +143,6 @@ def _build_html(
         '</tr>'
     )
 
-    # Umbrella row changes background colour when active
     umbrella_row = (
         '<tr style="background:#cfe2ff">'
         '<td style="padding:8px;font-weight:bold">Paraply</td>'
@@ -156,9 +155,16 @@ def _build_html(
         '</tr>'
     )
 
+    # Optional fourth pill shown only when umbrella is recommended
+    umbrella_pill = (
+        '<div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;'
+        'font-size:14px;font-weight:600;text-align:center">Tag paraply</div>'
+        if rec.umbrella else ""
+    )
+
     # Small note shown when the ML model adjusted any threshold
     ml_note = (
-        '<p style="font-size:11px;color:#999;margin-top:4px">'
+        '<p style="font-size:11px;color:#999;margin:8px 0 0">'
         'Anbefalingen er justeret af den trænede model baseret på din tidligere feedback.'
         '</p>'
         if rec.ml_override else ""
@@ -177,30 +183,29 @@ def _build_html(
   <title>Daglig Vejr {date_str}</title>
 </head>
 <body style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#f8f9fa;padding:16px">
- 
+
   <div style="background:#2c3e50;color:white;padding:20px;border-radius:8px 8px 0 0">
     <h1 style="margin:0;font-size:20px">Daglig Vejr</h1>
     <p style="margin:4px 0 0;font-size:14px;opacity:0.85">{date_str} &mdash; Odense</p>
   </div>
- 
+
   <div style="background:white;padding:20px;border-radius:0 0 8px 8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">
- 
-    <div style="margin-bottom:28px">
-      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
-        <div style="background:#4caf50;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
-          {rec.clothing_outer}
-        </div>
-        <div style="background:#ff9800;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
-          {rec.spf}
-        </div>
-        <div style="background:#2196f3;color:white;padding:16px 24px;border-radius:24px;font-size:14px;font-weight:600;flex:1;min-width:140px;text-align:center">
-          {'Antihistamin' if rec.pill else 'Ingen antihistamin'}
-        </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
+        {rec.clothing_outer}
       </div>
-      {ml_note}
+      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
+        {rec.spf}
+      </div>
+      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
+        {'Antihistamin' if rec.pill else 'Ingen antihistamin'}
+      </div>
+      {umbrella_pill}
     </div>
- 
-    <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+    {ml_note}
+
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;margin-top:20px">
       <tr style="background:#f1f3f5">
         <td style="padding:8px;font-weight:bold;width:35%">Tøj i dag</td>
         <td style="padding:8px">{rec.clothing_outer}<br>
@@ -216,7 +221,7 @@ def _build_html(
       {pill_row}
       {umbrella_row}
     </table>
- 
+
     <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">Vejrdetaljer</h3>
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
@@ -256,7 +261,7 @@ def _build_html(
         <td style="padding:6px 8px">{sunrise} / {sunset}</td>
       </tr>
     </table>
- 
+
     <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">Pollendata (Østdanmark)</h3>
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
@@ -300,9 +305,9 @@ def _build_html(
         </td>
       </tr>
     </table>
- 
+
     {forecast_section}
- 
+
     <div style="border-top:1px solid #eee;padding-top:16px;text-align:center">
       <p style="margin:0 0 12px;font-size:13px;color:#666">
         Var dagens anbefaling præcis?
@@ -321,15 +326,16 @@ def _build_html(
         Dit klik åbner en GitHub Issue. Tryk blot "Submit" for at indsende feedback.
       </p>
     </div>
- 
+
   </div>
- 
+
   <p style="text-align:center;font-size:11px;color:#aaa;margin-top:12px">
     Genereret automatisk af Daglig Vejr &bull; Kilde: Open-Meteo + Astma-Allergi Danmark
   </p>
- 
+
 </body>
 </html>"""
+
 
 def _build_forecast_section(pollen: dict) -> str:
     """
@@ -338,10 +344,10 @@ def _build_forecast_section(pollen: dict) -> str:
     Only shown when at least one species has a non-'ukendt' forecast.
     Uses the same colour badge system as the current measurement table.
     """
-    dates   = pollen.get("forecast_dates", ["dag 1", "dag 2", "dag 3"])
-    g_fc    = pollen.get("grass_forecast",   ["ukendt"] * 3)
-    b_fc    = pollen.get("birch_forecast",   ["ukendt"] * 3)
-    m_fc    = pollen.get("mugwort_forecast", ["ukendt"] * 3)
+    dates = pollen.get("forecast_dates", ["dag 1", "dag 2", "dag 3"])
+    g_fc  = pollen.get("grass_forecast",   ["ukendt"] * 3)
+    b_fc  = pollen.get("birch_forecast",   ["ukendt"] * 3)
+    m_fc  = pollen.get("mugwort_forecast", ["ukendt"] * 3)
 
     # Only render if we have at least some real forecast data
     all_unknown = all(
