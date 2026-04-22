@@ -185,8 +185,8 @@ def _build_html(
 
   <div style="background:white;padding:20px;border-radius:0 0 8px 8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">
 
-    <div style="background:#e8f5e9;border-left:4px solid #4caf50;padding:12px;margin-bottom:20px;border-radius:0 4px 4px 0">
-      <strong style="font-size:16px">{rec.summary}</strong>
+    <div style="background:#4caf50;border-left:8px solid #2e7d32;padding:32px 24px;margin-bottom:28px;border-radius:0 4px 4px 0;text-align:center">
+      <div style="color:white;font-size:32px;font-weight:900;line-height:1.3;letter-spacing:-0.5px">{rec.summary}</div>
       {ml_note}
     </div>
 
