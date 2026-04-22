@@ -78,14 +78,14 @@
   },
   {
     "date": "2026-04-22",
-    "timestamp": "2026-04-22T12:37:10.023375",
+    "timestamp": "2026-04-22T12:47:04.437671",
     "weather": {
-      "temperature": 16.9,
-      "feels_like": 13.8,
+      "temperature": 17.1,
+      "feels_like": 13.9,
       "precipitation_current": 0.0,
       "wind_speed": 14.8,
       "wind_gusts": 32.4,
-      "cloud_cover": 6,
+      "cloud_cover": 5,
       "humidity": 35,
       "uv_index_current": 5.0,
       "weather_code": 0,
@@ -98,7 +98,7 @@
       "wind_speed_max": 18.4,
       "sunrise": "2026-04-22T05:57",
       "sunset": "2026-04-22T20:36",
-      "fetched_at": "2026-04-22T12:37:10.545225"
+      "fetched_at": "2026-04-22T12:47:05.083354"
     },
     "pollen": {
       "region": "48",
