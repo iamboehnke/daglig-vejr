@@ -17,7 +17,7 @@ on:
     # 05:00 UTC = 06:00 CET (winter) / 07:00 CEST (summer)
     # GitHub Actions uses UTC. Denmark is UTC+1 (CET) or UTC+2 (CEST).
     # We use 03:00 UTC to always deliver before 07:00 local time regardless of DST.
-    - cron: "0 3 * * *"
+    - cron: "0 2 * * *"
 
   # Allow triggering manually from the Actions tab (useful for testing)
   workflow_dispatch:
