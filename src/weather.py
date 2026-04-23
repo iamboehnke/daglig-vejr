@@ -40,6 +40,23 @@ WMO_CODES = {
 }
 
 
+def _calculate_windchill(temp_c: float, wind_kmh: float) -> float:
+    """
+    Calculate perceived temperature (windchill) using a simplified formula.
+    
+    Based on the Canadian windchill formula, adapted for metric units.
+    Returns the "feels like" temperature in Celsius.
+    """
+    if wind_kmh < 3:
+        # No significant windchill below 3 km/h
+        return temp_c
+    
+    # Simplified windchill: T + 0.2 * (0.1 * V) * (T - 33)
+    # where T is temp in C and V is wind in km/h
+    windchill = temp_c + 0.2 * (0.1 * wind_kmh) * (temp_c - 33)
+    return round(windchill, 1)
+
+
 def fetch_weather(latitude: float = 55.3959, longitude: float = 10.3883) -> Optional[dict]:
     """
     Fetch current weather observations and UV forecast from Open-Meteo.
@@ -48,7 +65,8 @@ def fetch_weather(latitude: float = 55.3959, longitude: float = 10.3883) -> Opti
     the request fails.
 
     The 'current' endpoint reflects the most recently observed or modelled
-    values at the given coordinates.
+    values at the given coordinates. Daily values are used for the full-day
+    forecast.
     """
     params = {
         "latitude": latitude,
@@ -70,6 +88,7 @@ def fetch_weather(latitude: float = 55.3959, longitude: float = 10.3883) -> Opti
             "precipitation_probability_max",
             "temperature_2m_max",
             "temperature_2m_min",
+            "relative_humidity_2m_max",
             "wind_speed_10m_max",
             "sunrise",
             "sunset",
@@ -98,8 +117,12 @@ def fetch_weather(latitude: float = 55.3959, longitude: float = 10.3883) -> Opti
 
         # Daily values are lists with one entry per forecast day.
         # Index 0 is today.
+        temp_max = daily["temperature_2m_max"][0]
+        wind_max = daily["wind_speed_10m_max"][0]
+        feels_like_max = _calculate_windchill(temp_max, wind_max)
+
         result = {
-            # Current / observed
+            # Current / observed (kept for reference, not used in recommendations)
             "temperature": round(current["temperature_2m"], 1),
             "feels_like": round(current["apparent_temperature"], 1),
             "precipitation_current": round(current.get("precipitation", 0.0), 1),
@@ -110,13 +133,15 @@ def fetch_weather(latitude: float = 55.3959, longitude: float = 10.3883) -> Opti
             "uv_index_current": round(current.get("uv_index", 0.0), 1),
             "weather_code": weather_code,
             "weather_description": weather_description,
-            # Daily forecast for today
+            # Daily forecast for today (primary values used for recommendations)
             "uv_index_max": round(daily["uv_index_max"][0], 1),
             "precipitation_sum": round(daily["precipitation_sum"][0], 1),
             "precipitation_probability": daily["precipitation_probability_max"][0],
-            "temp_max": round(daily["temperature_2m_max"][0], 1),
             "temp_min": round(daily["temperature_2m_min"][0], 1),
-            "wind_speed_max": round(daily["wind_speed_10m_max"][0], 1),
+            "temp_max": round(temp_max, 1),
+            "humidity_max": daily["relative_humidity_2m_max"][0],
+            "wind_speed_max": round(wind_max, 1),
+            "feels_like_max": feels_like_max,  # calculated windchill at temp_max
             "sunrise": daily["sunrise"][0],
             "sunset": daily["sunset"][0],
             "fetched_at": datetime.now().isoformat(),
@@ -135,6 +160,6 @@ def summarise_weather(weather: dict) -> str:
     """
     return (
         f"{weather['weather_description']}, "
-        f"{weather['temperature']}°C (føles som {weather['feels_like']}°C), "
-        f"vind {weather['wind_speed']} km/t"
+        f"{weather['temp_min']}°C-{weather['temp_max']}°C, "
+        f"vind {weather['wind_speed_max']} km/t"
     )
