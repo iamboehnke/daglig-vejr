@@ -212,12 +212,8 @@ def _build_html(
     <h3 style="color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:8px">Vejrdetaljer</h3>
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px">
       <tr>
-        <td style="padding:6px 8px;color:#666">Temperatur</td>
-        <td style="padding:6px 8px;font-weight:bold">{weather.get('temperature','N/A')}°C (føles som {weather.get('feels_like','N/A')}°C)</td>
-      </tr>
-      <tr style="background:#f8f9fa">
-        <td style="padding:6px 8px;color:#666">Min / Maks</td>
-        <td style="padding:6px 8px">{weather.get('temp_min','N/A')}°C / {weather.get('temp_max','N/A')}°C</td>
+        <td style="padding:6px 8px;color:#666">Temperatur i dag</td>
+        <td style="padding:6px 8px;font-weight:bold">{weather.get('temp_min','N/A')}°C - {weather.get('temp_max','N/A')}°C</td>
       </tr>
       <tr>
         <td style="padding:6px 8px;color:#666">UV-indeks (maks)</td>
@@ -228,8 +224,8 @@ def _build_html(
         <td style="padding:6px 8px">{weather.get('precipitation_probability','N/A')}% / {weather.get('precipitation_sum','N/A')} mm</td>
       </tr>
       <tr>
-        <td style="padding:6px 8px;color:#666">Vind</td>
-        <td style="padding:6px 8px">{weather.get('wind_speed','N/A')} km/t (vindstød: {weather.get('wind_gusts','N/A')} km/t)</td>
+        <td style="padding:6px 8px;color:#666">Vind (maksimum)</td>
+        <td style="padding:6px 8px">{weather.get('wind_speed_max','N/A')} km/t</td>
       </tr>
       <tr style="background:#f8f9fa">
         <td style="padding:6px 8px;color:#666">Skydække</td>
@@ -419,11 +415,10 @@ Paraply:        {umbrella_text}
 
 VEJR
 ----
-Temperatur:     {weather.get('temperature')}°C (føles som {weather.get('feels_like')}°C)
-Min/Maks:       {weather.get('temp_min')}°C / {weather.get('temp_max')}°C
+Temperatur:     {weather.get('temp_min')}°C - {weather.get('temp_max')}°C
 UV-indeks:      {weather.get('uv_index_max')}
 Regn:           {weather.get('precipitation_probability')}% chance, {weather.get('precipitation_sum')} mm
-Vind:           {weather.get('wind_speed')} km/t
+Vind:           {weather.get('wind_speed_max')} km/t (maksimum)
 Skydække:       {weather.get('cloud_cover')}%
 
 POLLEN (Østdanmark)
