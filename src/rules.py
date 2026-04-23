@@ -91,7 +91,7 @@ def _spf_recommendation(weather: dict, adj: dict) -> tuple[str, str]:
 
     The ML layer can shift thresholds via 'spf_threshold_offset'.
     """
-    uv    = weather.get("uv_index_max", weather.get("uv_index_current", 0))
+    uv    = weather.get("uv_index_max", 0)
     cloud = weather.get("cloud_cover", 0)
 
     attenuation  = 1.0 - (cloud / 100) * 0.6
@@ -116,7 +116,6 @@ def _spf_recommendation(weather: dict, adj: dict) -> tuple[str, str]:
 def _umbrella_recommendation(weather: dict, adj: dict) -> tuple[bool, str]:
     """
     Recommends an umbrella when:
-      - Current precipitation > 0.2 mm/h, OR
       - Daily precipitation probability exceeds threshold (default 50%), OR
       - Expected daily total >= 2 mm
 
@@ -126,16 +125,12 @@ def _umbrella_recommendation(weather: dict, adj: dict) -> tuple[bool, str]:
     """
     precip_prob = weather.get("precipitation_probability", 0)
     precip_sum  = weather.get("precipitation_sum", 0.0)
-    precip_now  = weather.get("precipitation_current", 0.0)
 
     prob_threshold = adj.get("umbrella_prob_threshold", 50)
 
     umbrella = False
     reasons  = []
 
-    if precip_now > 0.2:
-        umbrella = True
-        reasons.append(f"Det regner nu ({precip_now} mm/t)")
     if precip_prob >= prob_threshold:
         umbrella = True
         reasons.append(f"Regnchance {precip_prob}% i dag")
@@ -152,32 +147,34 @@ def _umbrella_recommendation(weather: dict, adj: dict) -> tuple[bool, str]:
 
 def _clothing_recommendation(weather: dict) -> tuple[str, str, str]:
     """
-    Clothing recommendation based on temperature and wind speed.
+    Clothing recommendation based on daily temperature range and max wind speed.
 
-    Uses the feels-like temperature (which already incorporates wind chill)
-    for layer guidance, and actual temperature for the outer layer choice.
+    Uses the daily max temperature and calculated windchill (feels_like_max)
+    to determine appropriate layers for the warmest/windiest conditions
+    you'll experience during the day.
     """
-    temp       = weather.get("temperature", 15)
-    feels_like = weather.get("feels_like", 15)
-    wind       = weather.get("wind_speed", 0)
+    temp_max   = weather.get("temp_max", 15)
+    feels_like = weather.get("feels_like_max", temp_max)
+    wind_max   = weather.get("wind_speed_max", 0)
+    temp_min   = weather.get("temp_min", temp_max)
 
-    # Outer layer by actual temperature
-    if temp < 0:
+    # Outer layer by max temperature (what you'll experience at warmest)
+    if temp_max < 0:
         outer  = "Vinterjakke (tyk)"
         layers = "Termounderlag + fleece + jakke"
-    elif temp < 5:
+    elif temp_max < 5:
         outer  = "Vinterjakke"
         layers = "Lag på lag"
-    elif temp < 10:
+    elif temp_max < 10:
         outer  = "Efterårsjakke"
         layers = "Trøje + jakke"
-    elif temp < 15:
+    elif temp_max < 15:
         outer  = "Let jakke eller tynd cardigan"
         layers = "Lange ærmer + let lag"
-    elif temp < 20:
+    elif temp_max < 20:
         outer  = "Ingen jakke nødvendig (men tag en med)"
         layers = "T-shirt eller tynd trøje"
-    elif temp < 25:
+    elif temp_max < 25:
         outer  = "T-shirt vejr"
         layers = "Let og luftigt"
     else:
@@ -185,11 +182,11 @@ def _clothing_recommendation(weather: dict) -> tuple[str, str, str]:
         layers = "Så lidt som muligt"
 
     # Wind override: suggest a windbreaker if it's blowing hard
-    if wind > 25 and "T-shirt" in outer:
+    if wind_max > 25 and "T-shirt" in outer:
         outer  = "Let vindtæt jakke (det blæser)"
         layers = "T-shirt + vindtæt lag"
 
-    reason = f"Temperatur {temp}°C, føles som {feels_like}°C, vind {wind} km/t"
+    reason = f"I dag {temp_min}°C-{temp_max}°C, føles som {feels_like}°C, vind {wind_max} km/t"
     return outer, layers, reason
 
 
