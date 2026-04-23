@@ -130,7 +130,7 @@ def _build_html(
 
     forecast_section = _build_forecast_section(pollen)
 
-    # Detail rows in the recommendation table
+    # Pill row changes background colour when active
     pill_row = (
         '<tr style="background:#fff3cd">'
         '<td style="padding:8px;font-weight:bold">Antihistamin</td>'
@@ -143,6 +143,7 @@ def _build_html(
         '</tr>'
     )
 
+    # Umbrella row changes background colour when active
     umbrella_row = (
         '<tr style="background:#cfe2ff">'
         '<td style="padding:8px;font-weight:bold">Paraply</td>'
@@ -155,19 +156,12 @@ def _build_html(
         '</tr>'
     )
 
-    # Optional fourth pill shown only when umbrella is recommended
-    umbrella_pill = (
-        '<div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;'
-        'font-size:14px;font-weight:600;text-align:center">Tag paraply</div>'
-        if rec.umbrella else ""
-    )
+
 
     # Small note shown when the ML model adjusted any threshold
     ml_note = (
-        '<p style="font-size:11px;color:#999;margin:8px 0 0">'
-        'Anbefalingen er justeret af den trænede model baseret på din tidligere feedback.'
-        '</p>'
-        if rec.ml_override else ""
+        '<p style="font-size:12px;color:rgba(255,255,255,0.8);margin:12px 0 0;text-align:center">Justeret af model baseret på din feedback</p>'
+        if rec.ml_override else ''
     )
 
     date_str = _dk_date(date)
@@ -191,21 +185,14 @@ def _build_html(
 
   <div style="background:white;padding:20px;border-radius:0 0 8px 8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">
 
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
-        {rec.clothing_outer}
+    <div style="margin-bottom:28px">
+      <div style="background:#4caf50;border-left:8px solid #2e7d32;padding:32px 24px;border-radius:0 4px 4px 0;text-align:center">
+        <div style="color:white;font-size:32px;font-weight:900;line-height:1.3;letter-spacing:-0.5px">{rec.summary}</div>
+        {ml_note}
       </div>
-      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
-        {rec.spf}
-      </div>
-      <div style="background:#2c3e50;color:white;padding:14px 20px;border-radius:24px;font-size:14px;font-weight:600;text-align:center">
-        {'Antihistamin' if rec.pill else 'Ingen antihistamin'}
-      </div>
-      {umbrella_pill}
     </div>
-    {ml_note}
 
-    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;margin-top:20px">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
       <tr style="background:#f1f3f5">
         <td style="padding:8px;font-weight:bold;width:35%">Tøj i dag</td>
         <td style="padding:8px">{rec.clothing_outer}<br>
@@ -344,10 +331,10 @@ def _build_forecast_section(pollen: dict) -> str:
     Only shown when at least one species has a non-'ukendt' forecast.
     Uses the same colour badge system as the current measurement table.
     """
-    dates = pollen.get("forecast_dates", ["dag 1", "dag 2", "dag 3"])
-    g_fc  = pollen.get("grass_forecast",   ["ukendt"] * 3)
-    b_fc  = pollen.get("birch_forecast",   ["ukendt"] * 3)
-    m_fc  = pollen.get("mugwort_forecast", ["ukendt"] * 3)
+    dates   = pollen.get("forecast_dates", ["dag 1", "dag 2", "dag 3"])
+    g_fc    = pollen.get("grass_forecast",   ["ukendt"] * 3)
+    b_fc    = pollen.get("birch_forecast",   ["ukendt"] * 3)
+    m_fc    = pollen.get("mugwort_forecast", ["ukendt"] * 3)
 
     # Only render if we have at least some real forecast data
     all_unknown = all(
