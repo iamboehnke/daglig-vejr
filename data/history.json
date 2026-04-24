@@ -232,5 +232,84 @@
     },
     "feedback": "accurate",
     "feedback_at": "2026-04-23T07:42:25.817312"
+  },
+  {
+    "date": "2026-04-24",
+    "timestamp": "2026-04-24T04:44:56.680835",
+    "weather": {
+      "temperature": 6.7,
+      "feels_like": 4.0,
+      "precipitation_current": 0.0,
+      "wind_speed": 10.1,
+      "wind_gusts": 17.6,
+      "cloud_cover": 48,
+      "humidity": 90,
+      "uv_index_current": 0.1,
+      "weather_code": 1,
+      "weather_description": "Overvejende klar",
+      "uv_index_max": 5.3,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 6.6,
+      "temp_max": 19.8,
+      "humidity_max": 90,
+      "wind_speed_max": 18.7,
+      "feels_like_max": 14.9,
+      "sunrise": "2026-04-24T05:52",
+      "sunset": "2026-04-24T20:40",
+      "fetched_at": "2026-04-24T04:44:57.098542"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 562,
+      "birch_level": "høj",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "høj",
+        "høj",
+        "høj"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "25. Apr",
+        "26. Apr",
+        "27. Apr"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), SPF 30, Antihistamin",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
