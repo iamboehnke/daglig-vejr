@@ -311,5 +311,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-04-25",
+    "timestamp": "2026-04-25T04:26:17.546756",
+    "weather": {
+      "temperature": 6.4,
+      "feels_like": 0.8,
+      "precipitation_current": 0.0,
+      "wind_speed": 27.7,
+      "wind_gusts": 49.3,
+      "cloud_cover": 16,
+      "humidity": 79,
+      "uv_index_current": 0.1,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 4.7,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 6.4,
+      "temp_max": 12.2,
+      "humidity_max": 84,
+      "wind_speed_max": 30.2,
+      "feels_like_max": -0.4,
+      "sunrise": "2026-04-25T05:49",
+      "sunset": "2026-04-25T20:42",
+      "fetched_at": "2026-04-25T04:26:18.175412"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 386,
+      "birch_level": "høj",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "høj",
+        "høj",
+        "høj"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "26. Apr",
+        "27. Apr",
+        "28. Apr"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "Let jakke eller tynd cardigan",
+      "clothing_layers": "Lange ærmer + let lag",
+      "summary": "Let jakke eller tynd cardigan, SPF 30, Antihistamin",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
