@@ -76,6 +76,7 @@
       "ml_override": false,
       "ml_adjustments": {}
     },
-    "feedback": null
+    "feedback": "accurate",
+    "feedback_at": "2026-04-26T15:53:13.955571"
   }
 ]
