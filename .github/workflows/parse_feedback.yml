@@ -1,8 +1,12 @@
 # .github/workflows/parse_feedback.yml
 #
-# Triggered whenever a new GitHub Issue is opened with the 'feedback' label.
-# These issues are created automatically when the user clicks the
-# "Ja, det var praecist" or "Nej, passede ikke" links in the daily email.
+# Triggered whenever a new GitHub Issue is opened with a title starting
+# with "Feedback:". These issues are created automatically when the user
+# clicks the feedback links in the daily email.
+#
+# Triggering on title rather than label because GitHub's mobile interface
+# strips label parameters from pre-filled issue URLs, so label-based
+# triggering silently skips all phone submissions.
 #
 # The workflow:
 #   1. Runs feedback_job.py with issue details passed as environment variables.
@@ -20,8 +24,7 @@ jobs:
     name: Parse feedback and update history
     runs-on: ubuntu-latest
 
-    # Only run if the issue has the 'feedback' label
-    if: contains(github.event.issue.labels.*.name, 'feedback')
+    if: startsWith(github.event.issue.title, 'Feedback:')
 
     permissions:
       contents: write
