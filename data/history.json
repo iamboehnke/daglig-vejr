@@ -393,35 +393,35 @@
   },
   {
     "date": "2026-04-26",
-    "timestamp": "2026-04-26T04:49:37.066274",
+    "timestamp": "2026-04-26T15:29:24.374129",
     "weather": {
-      "temperature": 3.9,
-      "feels_like": 1.1,
+      "temperature": 14.3,
+      "feels_like": 10.1,
       "precipitation_current": 0.0,
-      "wind_speed": 5.4,
-      "wind_gusts": 10.8,
-      "cloud_cover": 6,
-      "humidity": 82,
-      "uv_index_current": 0.1,
-      "weather_code": 0,
-      "weather_description": "Klar himmel",
+      "wind_speed": 15.8,
+      "wind_gusts": 33.1,
+      "cloud_cover": 61,
+      "humidity": 41,
+      "uv_index_current": 2.8,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
       "uv_index_max": 5.4,
       "precipitation_sum": 0.0,
       "precipitation_probability": 0,
       "temp_min": 3.5,
-      "temp_max": 14.8,
+      "temp_max": 14.6,
       "humidity_max": 83,
       "wind_speed_max": 15.8,
-      "feels_like_max": 9.0,
+      "feels_like_max": 8.8,
       "sunrise": "2026-04-26T05:47",
       "sunset": "2026-04-26T20:44",
-      "fetched_at": "2026-04-26T04:49:37.457791"
+      "fetched_at": "2026-04-26T15:29:24.801712"
     },
     "pollen": {
       "region": "48",
       "grass": 0,
       "grass_level": "ingen",
-      "birch": 647,
+      "birch": 186,
       "birch_level": "høj",
       "mugwort": 0,
       "mugwort_level": "ingen",
@@ -440,7 +440,7 @@
       "birch_forecast": [
         "høj",
         "høj",
-        "høj"
+        "moderat"
       ],
       "mugwort_forecast": [
         "ukendt",
