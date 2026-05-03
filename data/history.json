@@ -636,6 +636,7 @@
       "ml_override": false,
       "ml_adjustments": {}
     },
-    "feedback": null
+    "feedback": "accurate",
+    "feedback_at": "2026-05-03T18:12:32.514731"
   }
 ]
