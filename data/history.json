@@ -558,5 +558,84 @@
     },
     "feedback": "accurate",
     "feedback_at": "2026-05-02T16:04:38.567331"
+  },
+  {
+    "date": "2026-05-03",
+    "timestamp": "2026-05-03T05:19:46.095430",
+    "weather": {
+      "temperature": 11.2,
+      "feels_like": 9.9,
+      "precipitation_current": 0.0,
+      "wind_speed": 6.1,
+      "wind_gusts": 15.1,
+      "cloud_cover": 100,
+      "humidity": 85,
+      "uv_index_current": 0.4,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 4.0,
+      "precipitation_sum": 4.7,
+      "precipitation_probability": 100,
+      "temp_min": 10.8,
+      "temp_max": 17.3,
+      "humidity_max": 94,
+      "wind_speed_max": 14.0,
+      "feels_like_max": 12.9,
+      "sunrise": "2026-05-03T05:32",
+      "sunset": "2026-05-03T20:58",
+      "fetched_at": "2026-05-03T05:19:46.575379"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 130,
+      "birch_level": "høj",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "moderat",
+        "moderat",
+        "lav"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "4. May",
+        "5. May",
+        "6. May"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), Antihistamin, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
