@@ -1114,5 +1114,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-05-10",
+    "timestamp": "2026-05-10T05:25:48.717656",
+    "weather": {
+      "temperature": 11.0,
+      "feels_like": 9.5,
+      "precipitation_current": 0.0,
+      "wind_speed": 2.9,
+      "wind_gusts": 7.6,
+      "cloud_cover": 90,
+      "humidity": 71,
+      "uv_index_current": 0.1,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 4.7,
+      "precipitation_sum": 0.1,
+      "precipitation_probability": 13,
+      "temp_min": 9.1,
+      "temp_max": 15.1,
+      "humidity_max": 76,
+      "wind_speed_max": 16.2,
+      "feels_like_max": 9.3,
+      "sunrise": "2026-05-10T05:17",
+      "sunset": "2026-05-10T21:11",
+      "fetched_at": "2026-05-10T05:25:49.124369"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 10,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "11. May",
+        "12. May",
+        "13. May"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med)",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
