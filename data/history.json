@@ -1113,7 +1113,8 @@
       "ml_override": false,
       "ml_adjustments": {}
     },
-    "feedback": null
+    "feedback": "accurate",
+    "feedback_at": "2026-05-10T06:27:40.304578"
   },
   {
     "date": "2026-05-10",
