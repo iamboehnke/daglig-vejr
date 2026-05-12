@@ -1274,5 +1274,84 @@
     },
     "feedback": "accurate",
     "feedback_at": "2026-05-11T10:01:38.591697"
+  },
+  {
+    "date": "2026-05-12",
+    "timestamp": "2026-05-12T05:29:01.822096",
+    "weather": {
+      "temperature": 7.4,
+      "feels_like": 3.9,
+      "precipitation_current": 0.0,
+      "wind_speed": 14.8,
+      "wind_gusts": 27.0,
+      "cloud_cover": 61,
+      "humidity": 82,
+      "uv_index_current": 0.6,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 5.7,
+      "precipitation_sum": 5.0,
+      "precipitation_probability": 99,
+      "temp_min": 6.7,
+      "temp_max": 14.2,
+      "humidity_max": 92,
+      "wind_speed_max": 19.1,
+      "feels_like_max": 7.0,
+      "sunrise": "2026-05-12T05:13",
+      "sunset": "2026-05-12T21:15",
+      "fetched_at": "2026-05-12T05:29:02.206637"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 8,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "13. May",
+        "14. May",
+        "15. May"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": false,
+      "umbrella": true,
+      "clothing_outer": "Let jakke eller tynd cardigan",
+      "clothing_layers": "Lange ærmer + let lag",
+      "summary": "Let jakke eller tynd cardigan, SPF 30, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
