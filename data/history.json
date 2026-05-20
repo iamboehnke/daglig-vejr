@@ -1910,5 +1910,84 @@
     },
     "feedback": "accurate",
     "feedback_at": "2026-05-19T20:36:03.407005"
+  },
+  {
+    "date": "2026-05-20",
+    "timestamp": "2026-05-20T05:55:44.486726",
+    "weather": {
+      "temperature": 12.8,
+      "feels_like": 11.3,
+      "precipitation_current": 0.1,
+      "wind_speed": 11.5,
+      "wind_gusts": 21.2,
+      "cloud_cover": 100,
+      "humidity": 88,
+      "uv_index_current": 0.1,
+      "weather_code": 51,
+      "weather_description": "Let drizzle",
+      "uv_index_max": 3.8,
+      "precipitation_sum": 3.5,
+      "precipitation_probability": 100,
+      "temp_min": 12.1,
+      "temp_max": 15.2,
+      "humidity_max": 93,
+      "wind_speed_max": 15.8,
+      "feels_like_max": 9.6,
+      "sunrise": "2026-05-20T04:59",
+      "sunset": "2026-05-20T21:30",
+      "fetched_at": "2026-05-20T05:55:45.129980"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 3,
+      "grass_level": "ingen",
+      "birch": 4,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "21. May",
+        "22. May",
+        "23. May"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": true,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
