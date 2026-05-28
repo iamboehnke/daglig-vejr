@@ -2542,5 +2542,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-05-28",
+    "timestamp": "2026-05-28T05:58:52.887646",
+    "weather": {
+      "temperature": 11.0,
+      "feels_like": 8.8,
+      "precipitation_current": 0.0,
+      "wind_speed": 9.7,
+      "wind_gusts": 20.5,
+      "cloud_cover": 54,
+      "humidity": 77,
+      "uv_index_current": 1.2,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 6.4,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 8.7,
+      "temp_max": 22.4,
+      "humidity_max": 88,
+      "wind_speed_max": 15.5,
+      "feels_like_max": 19.1,
+      "sunrise": "2026-05-28T04:48",
+      "sunset": "2026-05-28T21:42",
+      "fetched_at": "2026-05-28T05:58:53.482209"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 11,
+      "grass_level": "lav",
+      "birch": 7,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "moderat",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "29. May",
+        "30. May",
+        "31. May"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, SPF 30, Antihistamin",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
