@@ -3727,5 +3727,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-06-12",
+    "timestamp": "2026-06-12T06:22:55.404071",
+    "weather": {
+      "temperature": 14.0,
+      "feels_like": 12.4,
+      "precipitation_current": 0.0,
+      "wind_speed": 11.5,
+      "wind_gusts": 22.7,
+      "cloud_cover": 74,
+      "humidity": 78,
+      "uv_index_current": 1.6,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 3.2,
+      "precipitation_sum": 1.9,
+      "precipitation_probability": 90,
+      "temp_min": 10.3,
+      "temp_max": 16.6,
+      "humidity_max": 93,
+      "wind_speed_max": 20.9,
+      "feels_like_max": 9.7,
+      "sunrise": "2026-06-12T04:36",
+      "sunset": "2026-06-12T21:59",
+      "fetched_at": "2026-06-12T06:22:56.055298"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 143,
+      "grass_level": "meget høj",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "høj",
+        "høj",
+        "høj"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "13. Jun",
+        "14. Jun",
+        "15. Jun"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), Antihistamin, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
