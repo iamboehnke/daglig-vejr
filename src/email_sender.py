@@ -305,9 +305,6 @@ def _build_html(
                 border-radius:6px;text-decoration:none;font-weight:bold;margin:0 8px">
         Nej, passede ikke
       </a>
-      <p style="margin:12px 0 0;font-size:11px;color:#aaa">
-        Dit klik åbner en GitHub Issue. Tryk blot "Submit" for at indsende feedback.
-      </p>
     </div>
 
   </div>
@@ -431,22 +428,16 @@ Bynke:          {pollen.get('mugwort')} korn/m³ ({pollen.get('mugwort_level')})
 
 def _feedback_url(github_repo: str, date: datetime, accurate: bool) -> str:
     """
-    Generates a pre-filled GitHub Issues URL.
+    Generates a URL to the GitHub Pages feedback landing page.
 
-    Clicking the link opens the issue creation page with title and body
-    already populated. The user just clicks "Submit new issue".
-    The parse_feedback.yml workflow then reads and processes these issues.
+    The page auto-submits via the GitHub API -- no form interaction needed.
+    Works on any device without opening the GitHub app.
     """
-    label    = "Accurate" if accurate else "Inaccurate"
+    owner    = github_repo.split("/")[0]
+    repo     = github_repo.split("/")[1]
     date_str = date.strftime("%Y-%m-%d")
-    title    = f"Feedback:{label}-{date_str}"
-    body     = (
-        f"Date: {date_str}\n"
-        f"Accurate: {'yes' if accurate else 'no'}\n"
-        f"Auto-generated feedback from daily advisory email."
-    )
-    params = urllib.parse.urlencode({"title": title, "body": body, "labels": "feedback"})
-    return f"https://github.com/{github_repo}/issues/new?{params}"
+    result   = "accurate" if accurate else "inaccurate"
+    return f"https://{owner}.github.io/{repo}/feedback.html?date={date_str}&result={result}"
 
 
 def _pollen_color(level: str) -> str:
