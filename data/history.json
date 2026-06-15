@@ -3967,21 +3967,21 @@
   },
   {
     "date": "2026-06-15",
-    "timestamp": "2026-06-15T14:35:07.949494",
+    "timestamp": "2026-06-15T14:46:31.337875",
     "weather": {
-      "temperature": 18.9,
-      "feels_like": 16.5,
+      "temperature": 19.4,
+      "feels_like": 17.1,
       "precipitation_current": 0.0,
-      "wind_speed": 20.5,
-      "wind_gusts": 40.0,
-      "cloud_cover": 82,
-      "humidity": 63,
-      "uv_index_current": 4.4,
-      "weather_code": 3,
-      "weather_description": "Overskyet",
+      "wind_speed": 20.2,
+      "wind_gusts": 40.3,
+      "cloud_cover": 71,
+      "humidity": 62,
+      "uv_index_current": 4.2,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
       "uv_index_max": 5.5,
       "precipitation_sum": 0.0,
-      "precipitation_probability": 41,
+      "precipitation_probability": 31,
       "temp_min": 12.1,
       "temp_max": 19.7,
       "humidity_max": 86,
@@ -3989,7 +3989,7 @@
       "feels_like_max": 13.4,
       "sunrise": "2026-06-15T04:35",
       "sunset": "2026-06-15T22:01",
-      "fetched_at": "2026-06-15T14:35:08.697252"
+      "fetched_at": "2026-06-15T14:46:31.843212"
     },
     "pollen": {
       "region": "48",
@@ -4033,12 +4033,12 @@
       ]
     },
     "recommendation": {
-      "spf": "Ingen solcreme nødvendig",
+      "spf": "SPF 30",
       "pill": true,
       "umbrella": false,
       "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
       "clothing_layers": "T-shirt eller tynd trøje",
-      "summary": "Ingen jakke nødvendig (men tag en med), Antihistamin",
+      "summary": "Ingen jakke nødvendig (men tag en med), SPF 30, Antihistamin",
       "ml_override": false,
       "ml_adjustments": {}
     },
