@@ -431,23 +431,15 @@ Bynke:          {pollen.get('mugwort')} korn/m³ ({pollen.get('mugwort_level')})
 
 def _feedback_url(github_repo: str, date: datetime, accurate: bool) -> str:
     """
-    Generates a pre-filled GitHub Issues URL.
-
-    Clicking the link opens the issue creation page with title and body
-    already populated. The user just clicks "Submit new issue".
-    The parse_feedback.yml workflow then reads and processes these issues.
+    Generates a URL to the GitHub Pages feedback redirect page.
+    The page uses a JavaScript redirect to bypass Universal Links on iOS/Android,
+    opening the pre-filled issue form in the browser rather than the GitHub app.
     """
-    label    = "Accurate" if accurate else "Inaccurate"
+    owner    = github_repo.split("/")[0]
+    repo     = github_repo.split("/")[1]
     date_str = date.strftime("%Y-%m-%d")
-    title    = f"Feedback:{label}-{date_str}"
-    body     = (
-        f"Date: {date_str}\n"
-        f"Accurate: {'yes' if accurate else 'no'}\n"
-        f"Auto-generated feedback from daily advisory email."
-    )
-    params = urllib.parse.urlencode({"title": title, "body": body, "labels": "feedback"})
-    return f"https://github.com/{github_repo}/issues/new?{params}"
-
+    result   = "accurate" if accurate else "inaccurate"
+    return f"https://{owner}.github.io/{repo}/feedback.html?date={date_str}&result={result}"
 
 def _pollen_color(level: str) -> str:
     """Returns a background colour hex string for the pollen level badge."""
