@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daglig Vejr</title>
+</head>
+<body style="font-family:sans-serif;text-align:center;padding:40px 20px;color:#333">
+  <p style="font-size:18px">Sender feedback...</p>
+  <p id="fallback" style="display:none;margin-top:20px">
+    <a id="link" href="#" style="color:#0969da">Tryk her hvis siden ikke fortsætter automatisk</a>
+  </p>
+  <script>
+    const params  = new URLSearchParams(window.location.search);
+    const date    = params.get('date');
+    const result  = params.get('result');
+
+    if (!date || !result) {
+      document.body.innerHTML = '<p>Ugyldigt link. Brug knapperne i emailen.</p>';
+    } else {
+      const label = result === 'accurate' ? 'Accurate' : 'Inaccurate';
+      const title = 'Feedback:' + label + '-' + date;
+      const body  = 'Date: ' + date + '\nAccurate: ' + (result === 'accurate' ? 'yes' : 'no') + '\nAuto-generated from feedback page.';
+      const url   = 'https://github.com/iamboehnke/daglig-vejr/issues/new'
+                    + '?title=' + encodeURIComponent(title)
+                    + '&body='  + encodeURIComponent(body);
+
+      // JS redirect bypasses Universal Links -- opens in browser not app
+      window.location.href = url;
+
+      // Fallback manual link shown after 1.5 seconds
+      setTimeout(function() {
+        document.getElementById('link').href = url;
+        document.getElementById('fallback').style.display = 'block';
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
