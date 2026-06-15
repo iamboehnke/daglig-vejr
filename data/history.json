@@ -3967,16 +3967,16 @@
   },
   {
     "date": "2026-06-15",
-    "timestamp": "2026-06-15T14:11:32.208808",
+    "timestamp": "2026-06-15T14:35:07.949494",
     "weather": {
-      "temperature": 19.0,
-      "feels_like": 16.4,
+      "temperature": 18.9,
+      "feels_like": 16.5,
       "precipitation_current": 0.0,
       "wind_speed": 20.5,
-      "wind_gusts": 38.9,
-      "cloud_cover": 86,
-      "humidity": 61,
-      "uv_index_current": 4.8,
+      "wind_gusts": 40.0,
+      "cloud_cover": 82,
+      "humidity": 63,
+      "uv_index_current": 4.4,
       "weather_code": 3,
       "weather_description": "Overskyet",
       "uv_index_max": 5.5,
@@ -3989,7 +3989,7 @@
       "feels_like_max": 13.4,
       "sunrise": "2026-06-15T04:35",
       "sunset": "2026-06-15T22:01",
-      "fetched_at": "2026-06-15T14:11:32.819516"
+      "fetched_at": "2026-06-15T14:35:08.697252"
     },
     "pollen": {
       "region": "48",
@@ -4042,7 +4042,6 @@
       "ml_override": false,
       "ml_adjustments": {}
     },
-    "feedback": "accurate",
-    "feedback_at": "2026-06-15T14:13:56.467262"
+    "feedback": null
   }
 ]
