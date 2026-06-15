@@ -306,7 +306,7 @@ def _build_html(
         Nej, passede ikke
       </a>
       <p style="margin:12px 0 0;font-size:11px;color:#aaa">
-        Dit klik åbner en GitHub Issue. Tryk blot "Submit" for at indsende feedback.
+        Du bliver videresendt til GitHub. Tryk på den grønne "Submit new issue" knap.
       </p>
     </div>
 
