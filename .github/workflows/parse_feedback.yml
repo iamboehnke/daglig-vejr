@@ -24,7 +24,9 @@ jobs:
     name: Parse feedback and update history
     runs-on: ubuntu-latest
 
-    if: startsWith(github.event.issue.title, 'Feedback:')
+    if: >
+      startsWith(github.event.issue.title, 'Feedback:') ||
+      (contains(github.event.issue.body, 'Date:') && contains(github.event.issue.body, 'Accurate:'))
 
     permissions:
       contents: write
