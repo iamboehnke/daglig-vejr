@@ -4519,5 +4519,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-06-22",
+    "timestamp": "2026-06-22T07:08:19.332692",
+    "weather": {
+      "temperature": 16.9,
+      "feels_like": 14.3,
+      "precipitation_current": 0.0,
+      "wind_speed": 12.2,
+      "wind_gusts": 25.9,
+      "cloud_cover": 0,
+      "humidity": 52,
+      "uv_index_current": 3.1,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 6.3,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 13.4,
+      "temp_max": 24.5,
+      "humidity_max": 77,
+      "wind_speed_max": 14.0,
+      "feels_like_max": 22.1,
+      "sunrise": "2026-06-22T04:36",
+      "sunset": "2026-06-22T22:04",
+      "fetched_at": "2026-06-22T07:08:19.756551"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 178,
+      "grass_level": "meget høj",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "høj",
+        "høj",
+        "høj"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "23. Jun",
+        "24. Jun",
+        "25. Jun"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 50",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, SPF 50, Antihistamin",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
