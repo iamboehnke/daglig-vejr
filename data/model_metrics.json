@@ -1,0 +1,22 @@
+{
+  "trained_at": "2026-07-04T07:47:25.521117",
+  "labeled_samples": 20,
+  "cv_accuracy_mean": 0.75,
+  "cv_accuracy_std": 0.1581,
+  "feature_importances": {
+    "temperature": 0.216,
+    "feels_like": 0.1743,
+    "uv_index_max": 0.0529,
+    "precipitation_probability": 0.0497,
+    "precipitation_sum": 0.0594,
+    "wind_speed": 0.0426,
+    "cloud_cover": 0.057,
+    "humidity": 0.1123,
+    "grass_pollen": 0.0115,
+    "birch_pollen": 0.0703,
+    "mugwort_pollen": 0.0,
+    "month": 0.0828,
+    "day_of_week": 0.0711
+  },
+  "status": "trained"
+}
