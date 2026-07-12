@@ -6204,6 +6204,7 @@
         "umbrella_prob_threshold": 55
       }
     },
-    "feedback": null
+    "feedback": "accurate",
+    "feedback_at": "2026-07-12T09:20:12.043954"
   }
 ]
