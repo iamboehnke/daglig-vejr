@@ -6207,5 +6207,84 @@
     },
     "feedback": "accurate",
     "feedback_at": "2026-07-12T09:20:12.043954"
+  },
+  {
+    "date": "2026-07-13",
+    "timestamp": "2026-07-13T05:21:38.527960",
+    "weather": {
+      "temperature": 18.6,
+      "feels_like": 19.5,
+      "precipitation_current": 0.0,
+      "wind_speed": 6.5,
+      "wind_gusts": 19.1,
+      "cloud_cover": 86,
+      "humidity": 82,
+      "uv_index_current": 0.9,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 5.9,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 43,
+      "temp_min": 18.2,
+      "temp_max": 25.3,
+      "humidity_max": 91,
+      "wind_speed_max": 19.4,
+      "feels_like_max": 22.3,
+      "sunrise": "2026-07-13T04:53",
+      "sunset": "2026-07-13T21:53",
+      "fetched_at": "2026-07-13T05:21:38.968849"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 32,
+      "grass_level": "moderat",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 2,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "moderat",
+        "moderat",
+        "moderat"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "moderat"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "14. Jul",
+        "15. Jul",
+        "16. Jul"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "Shorts og T-shirt",
+      "clothing_layers": "Så lidt som muligt",
+      "summary": "Shorts og T-shirt, Antihistamin",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
