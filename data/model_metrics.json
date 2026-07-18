@@ -1,22 +1,22 @@
 {
-  "trained_at": "2026-07-11T07:11:27.001249",
-  "labeled_samples": 21,
-  "cv_accuracy_mean": 0.81,
-  "cv_accuracy_std": 0.097,
+  "trained_at": "2026-07-18T07:00:34.433067",
+  "labeled_samples": 23,
+  "cv_accuracy_mean": 0.83,
+  "cv_accuracy_std": 0.0872,
   "feature_importances": {
-    "temperature": 0.1781,
-    "feels_like": 0.0865,
-    "uv_index_max": 0.0696,
-    "precipitation_probability": 0.0528,
-    "precipitation_sum": 0.0906,
-    "wind_speed": 0.0552,
-    "cloud_cover": 0.0711,
-    "humidity": 0.1219,
-    "grass_pollen": 0.0165,
-    "birch_pollen": 0.0697,
+    "temperature": 0.1326,
+    "feels_like": 0.1488,
+    "uv_index_max": 0.0568,
+    "precipitation_probability": 0.0666,
+    "precipitation_sum": 0.0844,
+    "wind_speed": 0.0903,
+    "cloud_cover": 0.0745,
+    "humidity": 0.1026,
+    "grass_pollen": 0.0206,
+    "birch_pollen": 0.0486,
     "mugwort_pollen": 0.0,
-    "month": 0.1208,
-    "day_of_week": 0.0671
+    "month": 0.0711,
+    "day_of_week": 0.1032
   },
   "status": "trained"
 }
