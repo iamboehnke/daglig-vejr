@@ -6608,5 +6608,87 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-07-18",
+    "timestamp": "2026-07-18T04:35:27.482984",
+    "weather": {
+      "temperature": 17.6,
+      "feels_like": 16.5,
+      "precipitation_current": 0.0,
+      "wind_speed": 15.1,
+      "wind_gusts": 27.4,
+      "cloud_cover": 100,
+      "humidity": 77,
+      "uv_index_current": 0.2,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 6.3,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 25,
+      "temp_min": 16.4,
+      "temp_max": 24.0,
+      "humidity_max": 86,
+      "wind_speed_max": 24.5,
+      "feels_like_max": 19.6,
+      "sunrise": "2026-07-18T05:01",
+      "sunset": "2026-07-18T21:47",
+      "fetched_at": "2026-07-18T04:35:27.914142"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 20,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 9,
+      "mugwort_level": "lav",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "moderat",
+        "moderat",
+        "moderat"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "moderat",
+        "lav",
+        "moderat"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "19. Jul",
+        "20. Jul",
+        "21. Jul"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, Antihistamin",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
