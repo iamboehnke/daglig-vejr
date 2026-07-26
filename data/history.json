@@ -7255,5 +7255,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-07-26",
+    "timestamp": "2026-07-26T05:17:52.343852",
+    "weather": {
+      "temperature": 15.7,
+      "feels_like": 15.1,
+      "precipitation_current": 0.0,
+      "wind_speed": 9.0,
+      "wind_gusts": 16.9,
+      "cloud_cover": 78,
+      "humidity": 81,
+      "uv_index_current": 0.8,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 5.0,
+      "precipitation_sum": 3.2,
+      "precipitation_probability": 97,
+      "temp_min": 15.3,
+      "temp_max": 20.5,
+      "humidity_max": 95,
+      "wind_speed_max": 21.6,
+      "feels_like_max": 15.1,
+      "sunrise": "2026-07-26T05:14",
+      "sunset": "2026-07-26T21:34",
+      "fetched_at": "2026-07-26T05:17:53.023689"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 14,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 13,
+      "mugwort_level": "moderat",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "moderat",
+        "moderat"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "27. Jul",
+        "28. Jul",
+        "29. Jul"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, Antihistamin, Paraply",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
