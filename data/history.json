@@ -7991,5 +7991,84 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-04",
+    "timestamp": "2026-08-04T04:51:42.385077",
+    "weather": {
+      "temperature": 16.9,
+      "feels_like": 16.3,
+      "precipitation_current": 0.0,
+      "wind_speed": 12.6,
+      "wind_gusts": 22.0,
+      "cloud_cover": 93,
+      "humidity": 82,
+      "uv_index_current": 0.2,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 5.7,
+      "precipitation_sum": 1.7,
+      "precipitation_probability": 78,
+      "temp_min": 16.2,
+      "temp_max": 27.0,
+      "humidity_max": 90,
+      "wind_speed_max": 22.7,
+      "feels_like_max": 24.3,
+      "sunrise": "2026-08-04T05:31",
+      "sunset": "2026-08-04T21:17",
+      "fetched_at": "2026-08-04T04:51:43.000305"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 7,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 18,
+      "mugwort_level": "moderat",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "moderat",
+        "moderat",
+        "moderat"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "5. Aug",
+        "6. Aug",
+        "7. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "Shorts og T-shirt",
+      "clothing_layers": "Så lidt som muligt",
+      "summary": "Shorts og T-shirt, Antihistamin, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
