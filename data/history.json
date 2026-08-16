@@ -8966,5 +8966,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-16",
+    "timestamp": "2026-08-16T02:49:59.180305",
+    "weather": {
+      "temperature": 13.8,
+      "feels_like": 12.8,
+      "precipitation_current": 0.0,
+      "wind_speed": 10.8,
+      "wind_gusts": 19.4,
+      "cloud_cover": 58,
+      "humidity": 88,
+      "uv_index_current": 0.0,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 5.1,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 18,
+      "temp_min": 13.7,
+      "temp_max": 21.7,
+      "humidity_max": 88,
+      "wind_speed_max": 21.6,
+      "feels_like_max": 16.8,
+      "sunrise": "2026-08-16T05:53",
+      "sunset": "2026-08-16T20:51",
+      "fetched_at": "2026-08-16T02:49:59.572882"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 5,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 26,
+      "mugwort_level": "moderat",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "17. Aug",
+        "18. Aug",
+        "19. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, SPF 30, Antihistamin",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
