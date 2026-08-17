@@ -9048,5 +9048,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-17",
+    "timestamp": "2026-08-17T02:49:55.803756",
+    "weather": {
+      "temperature": 14.7,
+      "feels_like": 13.7,
+      "precipitation_current": 0.0,
+      "wind_speed": 12.2,
+      "wind_gusts": 22.3,
+      "cloud_cover": 100,
+      "humidity": 88,
+      "uv_index_current": 0.0,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 5.2,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 25,
+      "temp_min": 14.4,
+      "temp_max": 20.4,
+      "humidity_max": 89,
+      "wind_speed_max": 22.0,
+      "feels_like_max": 14.9,
+      "sunrise": "2026-08-17T05:55",
+      "sunset": "2026-08-17T20:49",
+      "fetched_at": "2026-08-17T02:49:56.230014"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 4,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 10,
+      "mugwort_level": "moderat",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "18. Aug",
+        "19. Aug",
+        "20. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
