@@ -9212,5 +9212,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-19",
+    "timestamp": "2026-08-19T02:47:09.564526",
+    "weather": {
+      "temperature": 16.1,
+      "feels_like": 15.7,
+      "precipitation_current": 0.0,
+      "wind_speed": 10.4,
+      "wind_gusts": 18.0,
+      "cloud_cover": 94,
+      "humidity": 85,
+      "uv_index_current": 0.0,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 4.5,
+      "precipitation_sum": 1.6,
+      "precipitation_probability": 96,
+      "temp_min": 15.5,
+      "temp_max": 19.2,
+      "humidity_max": 96,
+      "wind_speed_max": 22.3,
+      "feels_like_max": 13.0,
+      "sunrise": "2026-08-19T05:59",
+      "sunset": "2026-08-19T20:44",
+      "fetched_at": "2026-08-19T02:47:09.991096"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 6,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 5,
+      "mugwort_level": "lav",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "20. Aug",
+        "21. Aug",
+        "22. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), Antihistamin, Paraply",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
