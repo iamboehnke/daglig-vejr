@@ -9377,5 +9377,87 @@
     },
     "feedback": "inaccurate",
     "feedback_at": "2026-08-20T04:34:35.225226"
+  },
+  {
+    "date": "2026-08-21",
+    "timestamp": "2026-08-21T02:52:52.875857",
+    "weather": {
+      "temperature": 15.5,
+      "feels_like": 15.4,
+      "precipitation_current": 0.0,
+      "wind_speed": 11.2,
+      "wind_gusts": 21.2,
+      "cloud_cover": 66,
+      "humidity": 94,
+      "uv_index_current": 0.0,
+      "weather_code": 2,
+      "weather_description": "Delvist skyet",
+      "uv_index_max": 5.2,
+      "precipitation_sum": 2.8,
+      "precipitation_probability": 54,
+      "temp_min": 14.8,
+      "temp_max": 21.8,
+      "humidity_max": 95,
+      "wind_speed_max": 15.8,
+      "feels_like_max": 18.3,
+      "sunrise": "2026-08-21T06:03",
+      "sunset": "2026-08-21T20:39",
+      "fetched_at": "2026-08-21T02:52:53.352564"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 5,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 1,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "22. Aug",
+        "23. Aug",
+        "24. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, SPF 30, Antihistamin, Paraply",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
