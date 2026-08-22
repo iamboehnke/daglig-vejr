@@ -9459,5 +9459,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-22",
+    "timestamp": "2026-08-22T02:43:54.595861",
+    "weather": {
+      "temperature": 12.7,
+      "feels_like": 11.3,
+      "precipitation_current": 0.0,
+      "wind_speed": 10.4,
+      "wind_gusts": 19.8,
+      "cloud_cover": 5,
+      "humidity": 86,
+      "uv_index_current": 0.0,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 4.1,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 24,
+      "temp_min": 12.5,
+      "temp_max": 20.9,
+      "humidity_max": 87,
+      "wind_speed_max": 26.6,
+      "feels_like_max": 14.5,
+      "sunrise": "2026-08-22T06:05",
+      "sunset": "2026-08-22T20:37",
+      "fetched_at": "2026-08-22T02:43:55.265985"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 7,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 1,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "23. Aug",
+        "24. Aug",
+        "25. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": true,
+      "umbrella": false,
+      "clothing_outer": "Let vindtæt jakke (det blæser)",
+      "clothing_layers": "T-shirt + vindtæt lag",
+      "summary": "Let vindtæt jakke (det blæser), SPF 30, Antihistamin",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
