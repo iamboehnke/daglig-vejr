@@ -9781,5 +9781,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-26",
+    "timestamp": "2026-08-26T02:54:57.792591",
+    "weather": {
+      "temperature": 13.9,
+      "feels_like": 13.1,
+      "precipitation_current": 0.0,
+      "wind_speed": 8.3,
+      "wind_gusts": 13.7,
+      "cloud_cover": 0,
+      "humidity": 84,
+      "uv_index_current": 0.0,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 4.7,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 13.6,
+      "temp_max": 24.3,
+      "humidity_max": 98,
+      "wind_speed_max": 21.2,
+      "feels_like_max": 20.6,
+      "sunrise": "2026-08-26T06:12",
+      "sunset": "2026-08-26T20:27",
+      "fetched_at": "2026-08-26T02:54:58.213429"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 2,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 1,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "27. Aug",
+        "28. Aug",
+        "29. Aug"
+      ]
+    },
+    "recommendation": {
+      "spf": "SPF 30",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "T-shirt vejr",
+      "clothing_layers": "Let og luftigt",
+      "summary": "T-shirt vejr, SPF 30",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
