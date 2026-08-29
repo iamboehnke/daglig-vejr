@@ -10024,5 +10024,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-08-29",
+    "timestamp": "2026-08-29T08:21:22.229537",
+    "weather": {
+      "temperature": 18.2,
+      "feels_like": 17.1,
+      "precipitation_current": 0.0,
+      "wind_speed": 23.4,
+      "wind_gusts": 46.4,
+      "cloud_cover": 91,
+      "humidity": 90,
+      "uv_index_current": 1.3,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 4.3,
+      "precipitation_sum": 0.7,
+      "precipitation_probability": 94,
+      "temp_min": 15.5,
+      "temp_max": 20.4,
+      "humidity_max": 98,
+      "wind_speed_max": 27.0,
+      "feels_like_max": 13.6,
+      "sunrise": "2026-08-29T06:18",
+      "sunset": "2026-08-29T20:20",
+      "fetched_at": "2026-08-29T08:21:22.616379"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 7,
+      "grass_level": "lav",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 4,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "30. Aug",
+        "31. Aug",
+        "1. Sep"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": true,
+      "umbrella": true,
+      "clothing_outer": "Let vindtæt jakke (det blæser)",
+      "clothing_layers": "T-shirt + vindtæt lag",
+      "summary": "Let vindtæt jakke (det blæser), Antihistamin, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
