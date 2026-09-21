@@ -11870,5 +11870,87 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-09-21",
+    "timestamp": "2026-09-21T07:20:15.525738",
+    "weather": {
+      "temperature": 12.7,
+      "feels_like": 8.4,
+      "precipitation_current": 0.0,
+      "wind_speed": 27.7,
+      "wind_gusts": 48.6,
+      "cloud_cover": 15,
+      "humidity": 78,
+      "uv_index_current": 1.2,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 3.0,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 11.0,
+      "temp_max": 16.3,
+      "humidity_max": 88,
+      "wind_speed_max": 32.0,
+      "feels_like_max": 5.6,
+      "sunrise": "2026-09-21T07:01",
+      "sunset": "2026-09-21T19:20",
+      "fetched_at": "2026-09-21T07:20:15.908720"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 1,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": true,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "22. Sep",
+        "23. Sep",
+        "24. Sep"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med)",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 35,
+        "umbrella_prob_threshold": 55
+      }
+    },
+    "feedback": null
   }
 ]
