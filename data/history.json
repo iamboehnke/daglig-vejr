@@ -12664,5 +12664,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-10-01",
+    "timestamp": "2026-10-01T07:54:02.610709",
+    "weather": {
+      "temperature": 15.6,
+      "feels_like": 13.3,
+      "precipitation_current": 0.0,
+      "wind_speed": 17.6,
+      "wind_gusts": 31.7,
+      "cloud_cover": 80,
+      "humidity": 73,
+      "uv_index_current": 1.1,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 2.2,
+      "precipitation_sum": 2.8,
+      "precipitation_probability": 94,
+      "temp_min": 14.2,
+      "temp_max": 19.8,
+      "humidity_max": 95,
+      "wind_speed_max": 19.4,
+      "feels_like_max": 14.7,
+      "sunrise": "2026-10-01T07:20",
+      "sunset": "2026-10-01T18:54",
+      "fetched_at": "2026-10-01T07:54:03.184035"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": false,
+      "api_ok": true,
+      "grass_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "lav",
+        "lav",
+        "lav"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "2. Oct",
+        "3. Oct",
+        "4. Oct"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": true,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med), Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
