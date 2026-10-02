@@ -12825,6 +12825,7 @@
         "spf_threshold_offset": 0.5
       }
     },
-    "feedback": null
+    "feedback": "inaccurate",
+    "feedback_at": "2026-10-02T07:44:52.319489"
   }
 ]
