@@ -12584,7 +12584,8 @@
       "ml_override": false,
       "ml_adjustments": {}
     },
-    "feedback": null
+    "feedback": "inaccurate",
+    "feedback_at": "2026-10-02T07:45:32.966808"
   },
   {
     "date": "2026-09-30",
