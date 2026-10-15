@@ -13809,5 +13809,88 @@
       }
     },
     "feedback": null
+  },
+  {
+    "date": "2026-10-15",
+    "timestamp": "2026-10-15T06:36:04.595160",
+    "weather": {
+      "temperature": 10.3,
+      "feels_like": 7.8,
+      "precipitation_current": 0.0,
+      "wind_speed": 14.8,
+      "wind_gusts": 25.2,
+      "cloud_cover": 100,
+      "humidity": 90,
+      "uv_index_current": 0.1,
+      "weather_code": 3,
+      "weather_description": "Overskyet",
+      "uv_index_max": 1.9,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 0,
+      "temp_min": 9.3,
+      "temp_max": 15.8,
+      "humidity_max": 91,
+      "wind_speed_max": 20.9,
+      "feels_like_max": 8.6,
+      "sunrise": "2026-10-15T07:48",
+      "sunset": "2026-10-15T18:19",
+      "fetched_at": "2026-10-15T06:36:05.208643"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": false,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "16. Oct",
+        "17. Oct",
+        "18. Oct"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "Ingen jakke nødvendig (men tag en med)",
+      "clothing_layers": "T-shirt eller tynd trøje",
+      "summary": "Ingen jakke nødvendig (men tag en med)",
+      "ml_override": true,
+      "ml_adjustments": {
+        "pill_grass_threshold": 20,
+        "umbrella_prob_threshold": 40,
+        "spf_threshold_offset": 0.5
+      }
+    },
+    "feedback": null
   }
 ]
