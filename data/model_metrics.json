@@ -1,5 +1,5 @@
 {
-  "trained_at": "2026-10-10T10:59:47.093320",
+  "trained_at": "2026-10-17T09:02:46.437753",
   "labeled_samples": 30,
   "cv_accuracy_mean": 0.6667,
   "cv_accuracy_std": 0.2357,
