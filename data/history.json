@@ -14054,5 +14054,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-10-18",
+    "timestamp": "2026-10-18T06:42:42.013121",
+    "weather": {
+      "temperature": 7.2,
+      "feels_like": 3.0,
+      "precipitation_current": 0.0,
+      "wind_speed": 18.4,
+      "wind_gusts": 33.8,
+      "cloud_cover": 4,
+      "humidity": 77,
+      "uv_index_current": 0.1,
+      "weather_code": 0,
+      "weather_description": "Klar himmel",
+      "uv_index_max": 2.3,
+      "precipitation_sum": 0.0,
+      "precipitation_probability": 6,
+      "temp_min": 7.1,
+      "temp_max": 12.1,
+      "humidity_max": 78,
+      "wind_speed_max": 31.0,
+      "feels_like_max": -0.9,
+      "sunrise": "2026-10-18T07:54",
+      "sunset": "2026-10-18T18:11",
+      "fetched_at": "2026-10-18T06:42:42.132757"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": false,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "19. Oct",
+        "20. Oct",
+        "21. Oct"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": false,
+      "clothing_outer": "Let jakke eller tynd cardigan",
+      "clothing_layers": "Lange ærmer + let lag",
+      "summary": "Let jakke eller tynd cardigan",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
