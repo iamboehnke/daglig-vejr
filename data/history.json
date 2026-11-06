@@ -15460,7 +15460,8 @@
         "spf_threshold_offset": 0.5
       }
     },
-    "feedback": null
+    "feedback": "accurate",
+    "feedback_at": "2026-11-06T08:53:04.864169"
   },
   {
     "date": "2026-11-04",
