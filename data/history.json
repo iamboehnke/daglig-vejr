@@ -16504,5 +16504,84 @@
       "ml_adjustments": {}
     },
     "feedback": null
+  },
+  {
+    "date": "2026-11-18",
+    "timestamp": "2026-11-18T09:21:10.717255",
+    "weather": {
+      "temperature": 7.7,
+      "feels_like": 5.2,
+      "precipitation_current": 0.3,
+      "wind_speed": 12.6,
+      "wind_gusts": 25.9,
+      "cloud_cover": 100,
+      "humidity": 97,
+      "uv_index_current": 0.1,
+      "weather_code": 55,
+      "weather_description": "Tæt drizzle",
+      "uv_index_max": 0.5,
+      "precipitation_sum": 9.0,
+      "precipitation_probability": 100,
+      "temp_min": 4.1,
+      "temp_max": 8.2,
+      "humidity_max": 100,
+      "wind_speed_max": 27.0,
+      "feels_like_max": -5.2,
+      "sunrise": "2026-11-18T07:57",
+      "sunset": "2026-11-18T16:08",
+      "fetched_at": "2026-11-18T09:21:10.783862"
+    },
+    "pollen": {
+      "region": "48",
+      "grass": 0,
+      "grass_level": "ingen",
+      "birch": 0,
+      "birch_level": "ingen",
+      "mugwort": 0,
+      "mugwort_level": "ingen",
+      "el": 0,
+      "el_level": "ingen",
+      "hassel": 0,
+      "hassel_level": "ingen",
+      "elm": 0,
+      "is_season": false,
+      "api_ok": true,
+      "grass_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "birch_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "mugwort_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "el_forecast": [
+        "ukendt",
+        "ukendt",
+        "ukendt"
+      ],
+      "forecast_dates": [
+        "19. Nov",
+        "20. Nov",
+        "21. Nov"
+      ]
+    },
+    "recommendation": {
+      "spf": "Ingen solcreme nødvendig",
+      "pill": false,
+      "umbrella": true,
+      "clothing_outer": "Efterårsjakke",
+      "clothing_layers": "Trøje + jakke",
+      "summary": "Efterårsjakke, Paraply",
+      "ml_override": false,
+      "ml_adjustments": {}
+    },
+    "feedback": null
   }
 ]
