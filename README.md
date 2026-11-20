@@ -9,10 +9,10 @@ The system starts rule-based and progressively improves through a feedback loop:
 ## How it works
 
 ```
-06:00 CET daily
+04:00 Copenhagen time daily (or immediately if a delayed run starts by 06:29)
      |
      v
-[GitHub Actions cron]
+[GitHub Actions scheduled run; wait until 04:00 if it starts early]
      |
      +---> fetch_weather()     Open-Meteo API (free, no key required)
      |
@@ -80,7 +80,7 @@ Station used: **Copenhagen (station 48)**, which is the most representative for 
 daglig-vejr/
 ├── .github/
 │   └── workflows/
-│       ├── daily_advisory.yml      Cron: daily at 04:00 UTC
+│       ├── daily_advisory.yml      Cron: daily at 21:30 UTC; waits until 04:00 Copenhagen
 │       ├── parse_feedback.yml      Trigger: issues.opened (title starts with "Feedback:")
 │       └── weekly_train.yml        Cron: Saturday at 05:00 UTC
 ├── data/
@@ -142,7 +142,11 @@ Fill in your own values from a specific IgE blood test. The values are injected 
 
 Go to **Settings -> Actions -> General -> Workflow permissions** and select **Read and write permissions**. This allows the daily workflow to commit `history.json` back to the repo.
 
-### 5. Test the workflow
+### 5. Daily schedule
+
+The workflow uses GitHub's built-in scheduler, so no additional account or token is needed. It starts at 21:30 UTC and waits until 04:00 in Copenhagen if GitHub starts it earlier. If GitHub does not start it by 06:29 Copenhagen time, it skips that day's email rather than sending it late. Standard GitHub-hosted runners are free for this public repository.
+
+### 6. Test the workflow
 
 Go to **Actions -> Daily Weather Advisory -> Run workflow** to trigger a manual run and verify the email arrives.
 
