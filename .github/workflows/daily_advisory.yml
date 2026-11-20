@@ -1,6 +1,6 @@
 # .github/workflows/daily_advisory.yml
 #
-# Runs weather_job.py every morning at 06:00 CET (05:00 UTC).
+# Runs weather_job.py at 06:15 Copenhagen time, with a 06:29 local cutoff.
 # Fetches weather + pollen, builds recommendation, sends email,
 # and commits the updated history.json back to the repository.
 #
@@ -14,17 +14,50 @@ name: Daily Weather Advisory
 
 on:
   schedule:
-    # 05:00 UTC = 06:00 CET (winter) / 07:00 CEST (summer)
-    # GitHub Actions uses UTC. Denmark is UTC+1 (CET) or UTC+2 (CEST).
-    # We use 03:00 UTC to always deliver before 07:00 local time regardless of DST.
-    - cron: "0 2 * * *"
+    # 04:15 UTC during CEST or 05:15 UTC during CET; the check selects the matching one.
+    - cron: "15 4 * * *"
+    - cron: "15 5 * * *"
 
   # Allow triggering manually from the Actions tab (useful for testing)
   workflow_dispatch:
 
 jobs:
+  check-delivery-time:
+    name: Check Copenhagen delivery time
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Allow manual runs or require the 06:00-06:29 Copenhagen window
+        id: check
+        env:
+          SCHEDULE_CRON: ${{ github.event.schedule }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" != "schedule" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          local_offset="$(TZ=Europe/Copenhagen date +'%z')"
+          local_time="$(TZ=Europe/Copenhagen date +'%H:%M')"
+          echo "Copenhagen local time: $local_time ($local_offset)"
+
+          if [[ "$local_offset" == "+0100" && "$SCHEDULE_CRON" != "15 5 * * *" ]] ||
+             [[ "$local_offset" == "+0200" && "$SCHEDULE_CRON" != "15 4 * * *" ]]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "$local_time" < "06:00" || "$local_time" > "06:29" ]]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
   send-advisory:
     name: Fetch data and send advisory
+    needs: check-delivery-time
+    if: needs.check-delivery-time.outputs.should_run == 'true'
     runs-on: ubuntu-latest
 
     # These permissions allow the workflow to push the updated history.json
